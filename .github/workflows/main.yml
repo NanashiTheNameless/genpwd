@@ -1,9 +1,6 @@
 name: build
 
-on:
-  push:
-    tags:
-      - 'v*.*.*.*'
+on: push
 
 jobs:
   build:
@@ -18,4 +15,5 @@ jobs:
           version: ${{ github.ref }} # refs/tags/v*.*.*
           arch: 'amd64'
           depends: 'bash, wget'
-          desc: 'simple installer for my genpwd tool'
+          desc: 'simple installer for my genpwd tool.'
+          compress_type: 'gzip'
