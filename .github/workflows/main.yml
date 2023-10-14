@@ -3,14 +3,13 @@ name: build
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*.*.*.*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-#      - name: create sample script
       - uses: jiro4989/build-deb-action@v3
         with:
           package: genpwd
