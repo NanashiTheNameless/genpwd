@@ -1,6 +1,6 @@
 # genpwd
 
-<img src="https://github.com/CortezJEL/genpwd/blob/pages/genpwd.png?raw=true">
+<img src="https://github.com/CortezJEL/genpwd/blob/pages/genpwd.png?raw=true"/>
 
 ## genpwd, a simple utility to generate **temporary** passwords
 
