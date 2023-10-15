@@ -2,7 +2,7 @@
 
 # Function to display help message
 display_help() {
-    echo "Usage: ${0##*/} [-s] [-n number_of_passwords] [-l min_word_length] [-r max_retries] [--regen]"
+    echo "Usage: ${0##*/} [-s] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries] [--regen]"
     echo "Generate random passwords based on words and numbers."
     echo "Options:"
     echo "  -s  Enable 'Super Mode' which will create longer passwords."
