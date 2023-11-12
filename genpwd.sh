@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Function to display help message
 display_help() {
     echo "Usage: ${0##*/} [-s] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries] [--regen]"
