@@ -79,6 +79,7 @@ while getopts ":s:en:l:m:r:h" opt; do
     l) 
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         min_word_length="$OPTARG"
+        max_word_length="$((min_word_length + 3))"
       else
         echo "Error: -l requires a numeric argument." >&2
         exit 1
@@ -179,14 +180,14 @@ for ((i=1; i<=times_to_run; i++)); do
         words9=$(get_word_from_file)
         
         # Generate eight random numbers
-        numbers1=$(shuf -i 10-999 -n 1)
-        numbers2=$(shuf -i 10-999 -n 1)
-        numbers3=$(shuf -i 10-999 -n 1)
-        numbers4=$(shuf -i 10-999 -n 1)
-        numbers5=$(shuf -i 10-999 -n 1)
-        numbers6=$(shuf -i 10-999 -n 1)
-        numbers7=$(shuf -i 10-999 -n 1)
-        numbers8=$(shuf -i 10-999 -n 1)
+        numbers1=$(shuf -i 10-99999 -n 1)
+        numbers2=$(shuf -i 10-99999 -n 1)
+        numbers3=$(shuf -i 10-99999 -n 1)
+        numbers4=$(shuf -i 10-99999 -n 1)
+        numbers5=$(shuf -i 10-99999 -n 1)
+        numbers6=$(shuf -i 10-99999 -n 1)
+        numbers7=$(shuf -i 10-99999 -n 1)
+        numbers8=$(shuf -i 10-99999 -n 1)
         
         # Echo the random string
         echo ""
