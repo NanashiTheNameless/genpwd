@@ -5,6 +5,7 @@ display_help() {
     echo "Generate random passwords based on words and numbers."
     echo "Options:"
     echo "  -s  Enable 'Super Mode' which will create longer passwords."
+    echo "  -e  Enable 'Evil Mode' which will create stupidly long passwords."
     echo "  -n  Number of passwords to generate (default is 1)."
     echo "  -l  Minimum length of the words (default is 4)."
     echo "  -m  Maximum length of the words (default is the current minimum length + 3)."
@@ -14,6 +15,7 @@ display_help() {
 
 # Initialize default values
 longer="false"
+longerer="false"
 times_to_run="1"
 min_word_length="4"
 max_word_length="$((min_word_length + 3))"
@@ -58,10 +60,13 @@ if [ "$regen" = true ]; then
 fi
 
 # Parse command line arguments for standard flags
-while getopts ":sn:l:m:r:h" opt; do
+while getopts ":s:en:l:m:r:h" opt; do
   case $opt in
     s)
         longer="true"
+      ;;
+    e)
+        longerest="true"
       ;;
     n) 
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
@@ -143,6 +148,7 @@ fi
 
 # Loop to run the script the specified number of times
 for ((i=1; i<=times_to_run; i++)); do
+
     if [ "$longer" = "true" ]; then
     
         # Generate three random words
@@ -158,8 +164,37 @@ for ((i=1; i<=times_to_run; i++)); do
         echo ""
         echo "$words1$numbers1$words2$numbers2$words3"
         echo ""
-    else
+        
+    elif [ "$longerest" = "true" ]; then
     
+        # Generate nine random words
+        words1=$(get_word_from_file)
+        words2=$(get_word_from_file)
+        words3=$(get_word_from_file)
+        words4=$(get_word_from_file)
+        words5=$(get_word_from_file)
+        words6=$(get_word_from_file)
+        words7=$(get_word_from_file)
+        words8=$(get_word_from_file)
+        words9=$(get_word_from_file)
+        
+        # Generate eight random numbers
+        numbers1=$(shuf -i 10-999 -n 1)
+        numbers2=$(shuf -i 10-999 -n 1)
+        numbers3=$(shuf -i 10-999 -n 1)
+        numbers4=$(shuf -i 10-999 -n 1)
+        numbers5=$(shuf -i 10-999 -n 1)
+        numbers6=$(shuf -i 10-999 -n 1)
+        numbers7=$(shuf -i 10-999 -n 1)
+        numbers8=$(shuf -i 10-999 -n 1)
+        
+        # Echo the random string
+        echo ""
+        echo "$words1$numbers1$words2$numbers2$words3$numbers3$words4$numbers4$words5$numbers5$words6$numbers6$words7$numbers7$words8$numbers8$words8"
+        echo ""
+        
+    else
+        
         # Generate two random words
         words1=$(get_word_from_file)
         words2=$(get_word_from_file)
