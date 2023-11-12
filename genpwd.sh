@@ -44,7 +44,7 @@ if ! [ -r $words_file ] || [ "$regen" = true ]; then
     else
         echo "Downloading words file..."
     fi
-    wget -O "$words_file" "https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt"
+    wget -O "$words_file" "https://raw.githubusercontent.com/xajkep/wordlists/master/dictionaries/english_a-z_-_no_special_chars.txt"
     # Check if the download was successful
     if [ $? -ne 0 ]; then
         echo "Download failed."
