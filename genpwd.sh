@@ -150,24 +150,8 @@ fi
 # Loop to run the script the specified number of times
 for ((i=1; i<=times_to_run; i++)); do
 
-    if [ "$longer" = "true" ]; then
-    
-        # Generate three random words
-        words1=$(get_word_from_file)
-        words2=$(get_word_from_file)
-        words3=$(get_word_from_file)
-        
-        # Generate two random numbers
-        numbers1=$(shuf -i 10-999 -n 1)
-        numbers2=$(shuf -i 10-999 -n 1)
-        
-        # Echo the random string
-        echo ""
-        echo "$words1$numbers1$words2$numbers2$words3"
-        echo ""
-        
-    elif [ "$longerest" = "true" ]; then
-    
+    if [ "$longerest" = "true" ]; then
+
         # Generate nine random words
         words1=$(get_word_from_file)
         words2=$(get_word_from_file)
@@ -192,6 +176,22 @@ for ((i=1; i<=times_to_run; i++)); do
         # Echo the random string
         echo ""
         echo "$words1$numbers1$words2$numbers2$words3$numbers3$words4$numbers4$words5$numbers5$words6$numbers6$words7$numbers7$words8$numbers8$words9"
+        echo ""
+        
+    elif [ "$longer" = "true" ]; then
+    
+        # Generate three random words
+        words1=$(get_word_from_file)
+        words2=$(get_word_from_file)
+        words3=$(get_word_from_file)
+        
+        # Generate two random numbers
+        numbers1=$(shuf -i 10-999 -n 1)
+        numbers2=$(shuf -i 10-999 -n 1)
+        
+        # Echo the random string
+        echo ""
+        echo "$words1$numbers1$words2$numbers2$words3"
         echo ""
         
     else
