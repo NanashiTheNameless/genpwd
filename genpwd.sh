@@ -60,7 +60,7 @@ if [ "$regen" = true ]; then
 fi
 
 # Parse command line arguments for standard flags
-while getopts ":s:en:l:m:r:h" opt; do
+while getopts ":sen:l:m:r:h" opt; do
   case $opt in
     s)
         longer="true"
