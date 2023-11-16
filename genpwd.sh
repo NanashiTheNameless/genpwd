@@ -11,6 +11,7 @@ display_help() {
     echo "  -m  Maximum length of the words (default is the current minimum length + 3)."
     echo "  -r  Maximum number of retries for each word (default is 30)."
     echo "  --regen  Download the latest words file."
+    echo "  --update  Download to the latest genpwd release."
 }
 
 # Initialize default values
@@ -28,6 +29,15 @@ words_file="$storage_path/genpwd-words.txt"
 for arg in "$@"; do
   if [ "$arg" == "--regen" ]; then
     regen="true"
+    break
+  fi
+done
+
+# Check for --update option among the arguments
+for arg in "$@"; do
+  if [ "$arg" == "--update" ]; then
+    update="true"
+    curl -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
     break
   fi
 done
@@ -56,6 +66,11 @@ fi
 
 # Exit after completing --regen
 if [ "$regen" = true ]; then
+    exit 0
+fi
+
+# Exit after completing --update
+if [ "$update" = true ]; then
     exit 0
 fi
 
