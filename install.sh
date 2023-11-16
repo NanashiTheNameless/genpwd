@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Prompt user
+echo "Please Enter your sudo password for installation!"
+
 # Delete old version
 if [ -f "/usr/bin/genpwd" ]; then
     sudo rm "/usr/bin/genpwd"
@@ -16,4 +19,4 @@ sudo wget -O "/usr/bin/genpwd.sh" "https://raw.githubusercontent.com/CortezJEL/g
 sudo chmod +x /usr/bin/genpwd
 sudo chmod +x /usr/bin/genpwd.sh
 
-echo "Done!
+echo "Installation complete!"
