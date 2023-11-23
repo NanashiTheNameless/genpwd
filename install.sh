@@ -18,7 +18,7 @@ sudo wget -O "/usr/bin/genpwd" "https://raw.githubusercontent.com/CortezJEL/genp
 sudo chmod +x /usr/bin/genpwd
 
 # Define the directory to check
-DIR="/usr/bin/genpwd"
+DIR="/usr/bin"
 
 # Function to add directory to PATH in a given file
 add_to_file() {
