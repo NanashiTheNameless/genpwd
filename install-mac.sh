@@ -4,21 +4,21 @@
 echo "Please Enter your sudo password!"
 
 # Delete old version
-if [ -f "/usr/bin/genpwd" ]; then
+if [ -f "$HOME/.config/genpwd/genpwd" ]; then
     sudo rm "/usr/bin/genpwd"
 fi
-if [ -f "/usr/bin/genpwd.sh" ]; then
+if [ -f "$HOME/.config/genpwd/genpwd.sh" ]; then
     sudo rm "/usr/bin/genpwd.sh"
 fi
 
 # Download Latest Version
-sudo wget -O "/usr/bin/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+sudo wget -O "$HOME/.config/genpwd/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd-mac.sh"
 
 # Make latest version rnable
-sudo chmod +x /usr/bin/genpwd
+sudo chmod +x $HOME/.config/genpwd/genpwd
 
 # Define the directory to check
-DIR="/usr/bin/genpwd"
+DIR="$HOME/.config/genpwd"
 
 # Function to add directory to PATH in a given file
 add_to_file() {

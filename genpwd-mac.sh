@@ -37,7 +37,7 @@ done
 for arg in "$@"; do
   if [ "$arg" == "--update" ]; then
     update="true"
-    curl -H 'Cache-Control: no-cache, no-store' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
+    curl -H 'Cache-Control: no-cache, no-store' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install-mac.sh | bash
     break
   fi
 done
