@@ -27,6 +27,12 @@ add_to_file() {
     echo "export PATH=\"$DIR:\$PATH\"" >> $file
 }
 
+# Check if the directory exists, create if not
+if [ ! -d "$DIR" ]; then
+    echo "$DIR does not exist. Creating directory..."
+    mkdir -p "$DIR"
+fi
+
 # Check if DIR is in the PATH
 if [[ ":$PATH:" != *":$DIR:"* ]]; then
     echo "$DIR is not in PATH. Adding to .zshrc and .bashrc..."
@@ -36,6 +42,9 @@ if [[ ":$PATH:" != *":$DIR:"* ]]; then
 
     # Check and modify .bashrc
     [ -f "$HOME/.bashrc" ] && add_to_file "$HOME/.bashrc"
+
+else
+    echo "$DIR is already in PATH."
 fi
 
 echo "Installation complete!"
