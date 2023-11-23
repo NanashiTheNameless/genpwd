@@ -5,10 +5,10 @@ echo "Please Enter your sudo password!"
 
 # Delete old version
 if [ -f "$HOME/.config/genpwd/genpwd" ]; then
-    sudo rm "/usr/bin/genpwd"
+    sudo rm "$HOME/.config/genpwd/genpwd"
 fi
 if [ -f "$HOME/.config/genpwd/genpwd.sh" ]; then
-    sudo rm "/usr/bin/genpwd.sh"
+    sudo rm "$HOME/.config/genpwd/genpwd.sh"
 fi
 
 # Download Latest Version
