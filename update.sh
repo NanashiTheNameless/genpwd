@@ -13,10 +13,8 @@ fi
 
 # Download Latest Version
 sudo wget -O "/usr/bin/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
-sudo wget -O "/usr/bin/genpwd.sh" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
 
 # Make latest version rnable
 sudo chmod +x /usr/bin/genpwd
-sudo chmod +x /usr/bin/genpwd.sh
 
 echo "Installation complete!"
