@@ -20,11 +20,16 @@ sudo chmod +x /usr/bin/genpwd
 # Define the directory to check
 DIR="/usr/bin"
 
-# Function to add directory to PATH in a given file
-add_to_file() {
+# Function to check and add directory to PATH in a given file
+check_and_add_to_file() {
     local file=$1
-    echo "Adding $DIR to $file"
-    echo "export PATH=\"$DIR:\$PATH\"" >> $file
+    # Check if the file contains the directory in the PATH
+    if grep -q "export PATH=.*$DIR" "$file"; then
+        echo "$DIR is already in the PATH in $file"
+    else
+        echo "Adding $DIR to $file"
+        echo "export PATH=\"$DIR:\$PATH\"" >> $file
+    fi
 }
 
 # Check if the directory exists, create if not
@@ -33,18 +38,10 @@ if [ ! -d "$DIR" ]; then
     mkdir -p "$DIR"
 fi
 
-# Check if DIR is in the PATH
-if [[ ":$PATH:" != *":$DIR:"* ]]; then
-    echo "$DIR is not in PATH. Adding to .zshrc and .bashrc..."
+# Check and modify .zshrc
+[ -f "$HOME/.zshrc" ] && check_and_add_to_file "$HOME/.zshrc"
 
-    # Check and modify .zshrc
-    [ -f "$HOME/.zshrc" ] && add_to_file "$HOME/.zshrc"
-
-    # Check and modify .bashrc
-    [ -f "$HOME/.bashrc" ] && add_to_file "$HOME/.bashrc"
-
-else
-    echo "$DIR is already in PATH."
-fi
+# Check and modify .bashrc
+[ -f "$HOME/.bashrc" ] && check_and_add_to_file "$HOME/.bashrc"
 
 echo "Installation complete!"
