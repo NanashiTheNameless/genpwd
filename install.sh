@@ -11,14 +11,20 @@ if [ -f "/usr/bin/genpwd.sh" ]; then
     sudo rm "/usr/bin/genpwd.sh"
 fi
 
+# Define the directory to check
+DIR="/usr/bin"
+
+# Check if the directory exists, create if not
+if [ ! -d "$DIR" ]; then
+    echo "$DIR does not exist. Creating directory..."
+    mkdir -p "$DIR"
+fi
+
 # Download Latest Version
 sudo wget -O "/usr/bin/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
 
 # Make latest version rnable
 sudo chmod +x /usr/bin/genpwd
-
-# Define the directory to check
-DIR="/usr/bin"
 
 # Function to check and add directory to PATH in a given file
 check_and_add_to_file() {
@@ -31,12 +37,6 @@ check_and_add_to_file() {
         echo "export PATH=\"$DIR:\$PATH\"" >> $file
     fi
 }
-
-# Check if the directory exists, create if not
-if [ ! -d "$DIR" ]; then
-    echo "$DIR does not exist. Creating directory..."
-    mkdir -p "$DIR"
-fi
 
 # Check and modify .zshrc
 [ -f "$HOME/.zshrc" ] && check_and_add_to_file "$HOME/.zshrc"
