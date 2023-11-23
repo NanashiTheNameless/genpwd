@@ -3,6 +3,9 @@
 # Prompt user
 echo "Please Enter your sudo password!"
 
+# sudo echo so it always propts here
+sudo echo
+
 # Delete old version
 if [ -f "/usr/bin/genpwd" ]; then
     sudo rm "/usr/bin/genpwd"
