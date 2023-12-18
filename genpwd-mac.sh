@@ -17,7 +17,7 @@ display_help() {
 
 # Initialize default values
 longer="false"
-longerer="false"
+evil="false"
 cowsay="false"
 times_to_run="1"
 min_word_length="4"
