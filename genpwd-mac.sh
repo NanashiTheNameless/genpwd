@@ -1,37 +1,68 @@
 #!/usr/bin/env bash
 # Function to display help message
 display_help() {
-    echo "Usage: ${0##*/} [-s] [-e] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries] [--regen]"
+    echo "Usage: ${0##*/} [--regen] [--update] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
     echo "Generate random passwords based on words and numbers."
     echo "Options:"
+    echo "  --regen  Download the latest words file."
+    echo "  --update  Download to the latest genpwd release."
     echo "  -s  Enable 'Super Mode' which will create longer passwords."
     echo "  -e  Enable 'Evil Mode' which will create stupidly long passwords."
+    echo "  -c  Enable 'Cowsay Mode' which will echo your password in a cowsay bubble."
     echo "  -n  Number of passwords to generate (default is 1)."
     echo "  -l  Minimum length of the words (default is 4)."
     echo "  -m  Maximum length of the words (default is the current minimum length + 3)."
     echo "  -r  Maximum number of retries for each word (default is 30)."
-    echo "  --regen  Download the latest words file."
-    echo "  --update  Download to the latest genpwd release."
 }
 
 # Initialize default values
 longer="false"
 longerer="false"
+cowsay="false"
 times_to_run="1"
 min_word_length="4"
 max_word_length="$((min_word_length + 3))"
 max_retries="30"
 regen="false"
+update="false"
 storage_path="$HOME/.config/genpwd"
 words_file="$storage_path/genpwd-words.txt"
+
+# function to download words file
+download_words_file() {
+   # Create the directory if it doesn't exist
+   if [ ! -d "$storage_path" ]; then
+     mkdir -p "$storage_path"
+   fi
+   # Determine the reason for downloading
+   if [ "$regen" = true ]; then
+       echo "Downloading new words file..."
+   else
+       echo "Downloading words file..."
+   fi
+   wget -O "$words_file" "https://raw.githubusercontent.com/xajkep/wordlists/master/dictionaries/english_a-z_-_no_special_chars.txt"
+   # Check if the download was successful
+   if [ $? -ne 0 ]; then
+       echo "Download failed."
+       exit 1
+   fi
+   echo "Download complete."
+   exit 0
+}
 
 # Check for --regen option among the arguments
 for arg in "$@"; do
   if [ "$arg" == "--regen" ]; then
     regen="true"
+    download_words_file
     break
   fi
 done
+
+# If words file doesn't exist download it using wget
+if ! [ -r $words_file ]; then
+download_words_file
+fi
 
 # Check for --update option among the arguments
 for arg in "$@"; do
@@ -42,46 +73,23 @@ for arg in "$@"; do
   fi
 done
 
-# If words file doesn't exist or --regen is true, download it using wget
-if ! [ -r $words_file ] || [ "$regen" = true ]; then
-    # Create the directory if it doesn't exist
-    if [ ! -d "$storage_path" ]; then
-      mkdir -p "$storage_path"
-    fi
-    # Determine the reason for downloading
-    if [ "$regen" = true ]; then
-        echo "Downloading new words file..."
-    else
-        echo "Downloading words file..."
-    fi
-    wget -O "$words_file" "https://raw.githubusercontent.com/xajkep/wordlists/master/dictionaries/english_a-z_-_no_special_chars.txt"
-    # Check if the download was successful
-    if [ $? -ne 0 ]; then
-        echo "Download failed."
-        exit 1
-    fi
-    echo "Download complete."
-    exit 0
-fi
 
 # Exit after completing --regen
-if [ "$regen" = true ]; then
-    exit 0
-fi
-
-# Exit after completing --update
-if [ "$update" = true ]; then
+if [ "$regen" = true ] || [ "$update" = true ]; then
     exit 0
 fi
 
 # Parse command line arguments for standard flags
-while getopts ":sen:l:m:r:h" opt; do
+while getopts ":secn:l:m:r:h" opt; do
   case $opt in
     s)
         longer="true"
       ;;
     e)
-        longerest="true"
+        evil="true"
+      ;;
+    c)
+        cowsay="true"
       ;;
     n) 
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
@@ -165,7 +173,7 @@ fi
 # Loop to run the script the specified number of times
 for ((i=1; i<=times_to_run; i++)); do
 
-    if [ "$longerest" = "true" ]; then
+    if [ "$evil" = "true" ]; then
 
         # Generate nine random words
         words1=$(get_word_from_file)
@@ -188,10 +196,17 @@ for ((i=1; i<=times_to_run; i++)); do
         numbers7=$(shuf -i 10-99999 -n 1)
         numbers8=$(shuf -i 10-99999 -n 1)
         
-        # Echo the random string
-        echo ""
-        echo "$words1$numbers1$words2$numbers2$words3$numbers3$words4$numbers4$words5$numbers5$words6$numbers6$words7$numbers7$words8$numbers8$words9"
-        echo ""
+        if [ "$cowsay" = "true" ]; then
+          # Echo the cowsay random string
+          echo ""
+          echo "$(cowsay $words1$numbers1$words2$numbers2$words3$numbers3$words4$numbers4$words5$numbers5$words6$numbers6$words7$numbers7$words8$numbers8$words9)"
+          echo ""
+        else
+          # Echo the random string
+          echo ""
+          echo "$words1$numbers1$words2$numbers2$words3$numbers3$words4$numbers4$words5$numbers5$words6$numbers6$words7$numbers7$words8$numbers8$words9"
+          echo ""
+        fi
         
     elif [ "$longer" = "true" ]; then
     
@@ -204,11 +219,18 @@ for ((i=1; i<=times_to_run; i++)); do
         numbers1=$(shuf -i 10-999 -n 1)
         numbers2=$(shuf -i 10-999 -n 1)
         
-        # Echo the random string
-        echo ""
-        echo "$words1$numbers1$words2$numbers2$words3"
-        echo ""
-        
+        if [ "$cowsay" = "true" ]; then
+          # Echo the cowsay random string
+          echo ""
+          echo "$(cowsay $words1$numbers1$words2$numbers2$words3)"
+          echo ""
+        else
+          # Echo the random string
+          echo ""
+          echo "$words1$numbers1$words2$numbers2$words3"
+          echo ""
+        fi
+
     else
         
         # Generate two random words
@@ -217,11 +239,18 @@ for ((i=1; i<=times_to_run; i++)); do
         
         # Generate a random number
         numbers1=$(shuf -i 10-999 -n 1)
-        
-        # Echo the random string
-        echo ""
-        echo "$words1$numbers1$words2"
-        echo ""
+
+        if [ "$cowsay" = "true" ]; then
+          # Echo the cowsay random string
+          echo ""
+          echo "$(cowsay $words1$numbers1$words2)"
+          echo ""
+        else
+          # Echo the cowsay random string
+          echo ""
+          echo "$words1$numbers1$words2"
+          echo ""
+        fi
     fi
 done
 exit 0
