@@ -127,7 +127,7 @@ while getopts ":secn:l:m:r:h" opt; do
     h) 
       display_help; exit 0
       ;;
-    \?) echo "Invalid option -$OPTARG" >&2; exit 1
+    \?) echo "Invalid option '-$OPTARG' (If you need help you can try running '${0##*/} -h')" >&2; exit 1
     ;;
     esac
 done
