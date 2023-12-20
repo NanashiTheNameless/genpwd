@@ -3,31 +3,8 @@
 # Prompt user
 echo "Please Enter your sudo password!"
 
-# sudo echo so it always propts here
+# Sudo echo so it always propts here
 sudo echo
-
-# Delete old version
-if [ -f "$HOME/.config/genpwd/genpwd" ]; then
-    sudo rm "$HOME/.config/genpwd/genpwd"
-fi
-if [ -f "$HOME/.config/genpwd/genpwd.sh" ]; then
-    sudo rm "$HOME/.config/genpwd/genpwd.sh"
-fi
-
-# Define the directory to check
-DIR="$HOME/.config/genpwd"
-
-# Check if the directory exists, create if not
-if [ ! -d "$DIR" ]; then
-    echo "$DIR does not exist. Creating directory..."
-    mkdir -p "$DIR"
-fi
-
-# Download Latest Version
-sudo wget -O "$HOME/.config/genpwd/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd-mac.sh"
-
-# Make latest version rnable
-sudo chmod +x $HOME/.config/genpwd/genpwd
 
 # Function to check and add directory to PATH in a given file
 check_and_add_to_file() {
@@ -37,9 +14,64 @@ check_and_add_to_file() {
         echo "$DIR is already in the PATH in $file"
     else
         echo "Adding $DIR to $file"
-        echo "export PATH=\"$DIR:\$PATH\"" >> $file
+        echo "export PATH=\"$DIR:\$PATH\"" >> "$file"
     fi
 }
+
+# Determine os and set install directory
+getdir() {
+    # Grab os from uname
+    SYSTEMTYPE=$(uname -s)
+
+    # Define directory
+    if [ "$SYSTEMTYPE" = "Darwin" ]; then
+        # Define the directory to install to
+        DIR="$HOME/.config/genpwd"
+    else [ "$SYSTEMTYPE" = "Linux" ]; 
+        # Define the directory to install to
+        DIR="/usr/bin"
+    fi
+}
+
+# Make install directory if it exists
+makedir() {
+    # Check if the directory exists, create if not
+    if [ ! -d "$DIR" ]; then
+        echo "$DIR does not exist. Creating directory..."
+        mkdir -p "$DIR"
+    fi
+}
+
+# Remove old version(s) if they exist
+removeold() {
+    # Delete old version
+    if [ -f "$DIR/genpwd" ]; then
+        sudo rm -f "$DIR/genpwd"
+    else [ -f "$DIR/genpwd.sh" ]; 
+        sudo rm -f "$DIR/genpwd.sh"
+    fi
+}
+
+# Install latest version
+installlatest() {
+    # Download Latest Version
+    sudo wget -O "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+
+    # Make latest version runable
+    sudo chmod +x "$DIR/genpwd"
+}
+
+# Determine os and set install directory
+getdir
+
+# Check if the directory exists, create if not
+makedir
+
+# Delete old version
+removeold
+
+# Install latest version
+installlatest
 
 # Check and modify .zshrc
 [ -f "$HOME/.zshrc" ] && check_and_add_to_file "$HOME/.zshrc"
@@ -47,4 +79,5 @@ check_and_add_to_file() {
 # Check and modify .bashrc
 [ -f "$HOME/.bashrc" ] && check_and_add_to_file "$HOME/.bashrc"
 
+# Anounce completion
 echo "Installation complete!"
