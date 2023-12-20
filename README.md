@@ -6,11 +6,7 @@
 
 ## WARNING THIS SCRIPT DOES INCLUSE SWEARS!! For a no swears version use [ THIS ](https://github.com/CortezJEL/genpwd/releases/tag/1699754745)!
 # to install use
-## linux
+## mac AND linux
 ```sh
 curl -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
-```
-## mac
-```sh
-curl -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install-mac.sh | bash
 ```
