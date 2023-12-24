@@ -187,14 +187,14 @@ for ((i=1; i<=times_to_run; i++)); do
         words9=$(get_word_from_file)
         
         # Generate eight random numbers
-        numbers1=$(shuf -i 10-99999 -n 1)
-        numbers2=$(shuf -i 10-99999 -n 1)
-        numbers3=$(shuf -i 10-99999 -n 1)
-        numbers4=$(shuf -i 10-99999 -n 1)
-        numbers5=$(shuf -i 10-99999 -n 1)
-        numbers6=$(shuf -i 10-99999 -n 1)
-        numbers7=$(shuf -i 10-99999 -n 1)
-        numbers8=$(shuf -i 10-99999 -n 1)
+        numbers1=$(shuf -i 1-999999 -n 1)
+        numbers2=$(shuf -i 1-999999 -n 1)
+        numbers3=$(shuf -i 1-999999 -n 1)
+        numbers4=$(shuf -i 1-999999 -n 1)
+        numbers5=$(shuf -i 1-999999 -n 1)
+        numbers6=$(shuf -i 1-999999 -n 1)
+        numbers7=$(shuf -i 1-999999 -n 1)
+        numbers8=$(shuf -i 1-999999 -n 1)
         
         if [ "$cowsay" = "true" ]; then
           # Echo the cowsay random string
@@ -216,8 +216,8 @@ for ((i=1; i<=times_to_run; i++)); do
         words3=$(get_word_from_file)
         
         # Generate two random numbers
-        numbers1=$(shuf -i 10-999 -n 1)
-        numbers2=$(shuf -i 10-999 -n 1)
+        numbers1=$(shuf -i 1-99999 -n 1)
+        numbers2=$(shuf -i 1-99999 -n 1)
         
         if [ "$cowsay" = "true" ]; then
           # Echo the cowsay random string
@@ -238,7 +238,7 @@ for ((i=1; i<=times_to_run; i++)); do
         words2=$(get_word_from_file)
         
         # Generate a random number
-        numbers1=$(shuf -i 10-999 -n 1)
+        numbers1=$(shuf -i 1-99999 -n 1)
 
         if [ "$cowsay" = "true" ]; then
           # Echo the cowsay random string
