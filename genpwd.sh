@@ -238,7 +238,7 @@ for ((i=1; i<=times_to_run; i++)); do
         words2=$(get_word_from_file)
         
         # Generate a random number
-        numbers1=$(shuf -i 1-99999 -n 1)
+        numbers1=$(shuf -i 1-9999 -n 1)
 
         if [ "$cowsay" = "true" ]; then
           # Echo the cowsay random string
