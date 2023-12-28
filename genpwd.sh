@@ -28,6 +28,9 @@ update="false"
 storage_path="$HOME/.config/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
+# To use a different word list link it here (make sure it is a raw file)
+words_file_link="https://raw.githubusercontent.com/xajkep/wordlists/master/dictionaries/english_a-z_-_no_special_chars.txt"
+
 # function to download words file
 download_words_file() {
    # Create the directory if it doesn't exist
@@ -40,7 +43,7 @@ download_words_file() {
    else
        echo "Downloading words file..."
    fi
-   wget -O "$words_file" "https://raw.githubusercontent.com/xajkep/wordlists/master/dictionaries/english_a-z_-_no_special_chars.txt"
+   wget -O "$words_file" "$words_file_link"
    # Check if the download was successful
    if [ $? -ne 0 ]; then
        echo "Download failed."
