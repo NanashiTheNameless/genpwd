@@ -37,18 +37,30 @@ download_words_file() {
    if [ ! -d "$storage_path" ]; then
      mkdir -p "$storage_path"
    fi
+   
+   # Ensure Permissions on storage path
+   if [ ! -w "$storage_path" ]; then
+    echo "Error: No write permission in the storage path."
+    exit 1
+   fi
+
    # Determine the reason for downloading
    if [ "$regen" = true ]; then
        echo "Downloading new words file..."
    else
        echo "Downloading words file..."
    fi
+
+   # Check if wget is installed
+   command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting."; exit 1; }
    wget -O "$words_file" "$words_file_link"
+
    # Check if the download was successful
    if [ $? -ne 0 ]; then
        echo "Download failed."
        exit 1
    fi
+
    echo "Download complete."
    exit 0
 }
@@ -71,6 +83,8 @@ fi
 for arg in "$@"; do
   if [ "$arg" == "--update" ]; then
     update="true"
+    # Check if curl is installed
+    command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting."; exit 1; }
     curl -H 'Cache-Control: no-cache, no-store' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
     break
   fi
@@ -200,6 +214,8 @@ for ((i=1; i<=times_to_run; i++)); do
         numbers8=$(shuf -i 1-999999 -n 1)
         
         if [ "$cowsay" = "true" ]; then
+          # Check if cowsay is installed
+          command -v cowsay >/dev/null 2>&1 || { echo >&2 "cowsay is required but it's not installed. Aborting."; exit 1; }
           # Echo the cowsay random string
           echo ""
           echo "$(cowsay $words1$numbers1$words2$numbers2$words3$numbers3$words4$numbers4$words5$numbers5$words6$numbers6$words7$numbers7$words8$numbers8$words9)"
@@ -223,6 +239,8 @@ for ((i=1; i<=times_to_run; i++)); do
         numbers2=$(shuf -i 1-99999 -n 1)
         
         if [ "$cowsay" = "true" ]; then
+          # Check if cowsay is installed
+          command -v cowsay >/dev/null 2>&1 || { echo >&2 "cowsay is required but it's not installed. Aborting."; exit 1; }
           # Echo the cowsay random string
           echo ""
           echo "$(cowsay $words1$numbers1$words2$numbers2$words3)"
@@ -244,12 +262,14 @@ for ((i=1; i<=times_to_run; i++)); do
         numbers1=$(shuf -i 1-9999 -n 1)
 
         if [ "$cowsay" = "true" ]; then
+          # Check if cowsay is installed
+          command -v cowsay >/dev/null 2>&1 || { echo >&2 "cowsay is required but it's not installed. Aborting."; exit 1; }
           # Echo the cowsay random string
           echo ""
           echo "$(cowsay $words1$numbers1$words2)"
           echo ""
         else
-          # Echo the cowsay random string
+          # Echo the random string
           echo ""
           echo "$words1$numbers1$words2"
           echo ""
