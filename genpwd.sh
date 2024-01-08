@@ -53,7 +53,7 @@ download_words_file() {
 
    # Check if wget is installed
    command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting."; exit 1; }
-   wget -O "$words_file" "$words_file_link"
+   wget --no-cache -O "$words_file" "$words_file_link"
 
    # Check if the download was successful
    if [ $? -ne 0 ]; then
@@ -85,7 +85,7 @@ for arg in "$@"; do
     update="true"
     # Check if curl is installed
     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting."; exit 1; }
-    curl -H 'Cache-Control: no-cache, no-store' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
+    curl -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
     break
   fi
 done

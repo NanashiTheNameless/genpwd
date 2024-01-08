@@ -8,5 +8,5 @@
 # to install use
 ## mac AND linux
 ```sh
-curl -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
+curl -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
 ```
