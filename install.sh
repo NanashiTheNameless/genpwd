@@ -40,7 +40,7 @@ makedir() {
         echo "$DIR does not exist. Creating directory..."
         mkdir -p "$DIR"
     fi
-    if [ ! -w "$DIR" ]; then
+    if [ ! -w "$DIR/genpwd" ]; then
         echo "Error: No write permission in the install path. ($DIR)"
         exit 1
     fi
