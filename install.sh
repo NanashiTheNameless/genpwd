@@ -4,7 +4,7 @@
 echo "Please Enter your sudo password!"
 
 # Sudo echo so it always propts here
-sudo echo
+sudo echo > /dev/null
 
 # Function to check and add directory to PATH in a given file
 check_and_add_to_file() {
