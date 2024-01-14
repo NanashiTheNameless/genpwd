@@ -53,7 +53,7 @@ download_words_file() {
 
   if command -v axel &> /dev/null; then
       # Download with axel
-      sudo axel -o "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+      sudo axel -o "$words_file" "$words_file_link"
   else
       # Check if wget is installed
       command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting."; exit 1; }
@@ -61,7 +61,7 @@ download_words_file() {
       echo "Try Installing axel for faster download speed!"
       echo "------------------------------------------------"
       # Download with wget as a fallback
-      sudo wget -O "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+      wget -O "$words_file" "$words_file_link"
   fi
 
   # Check if the download was successful
