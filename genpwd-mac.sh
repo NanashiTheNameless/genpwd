@@ -4,7 +4,7 @@
 echo "Please Enter your sudo password!"
 
 # Sudo echo so it always propts here
-sudo echo
+sudo echo > /dev/null
 
 # Function to check and add directory to PATH in a given file
 check_and_add_to_file() {
@@ -54,11 +54,23 @@ removeold() {
 
 # Install latest version
 installlatest() {
-    # Download Latest Version
-    sudo wget -O "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+
+    if command -v axel &> /dev/null; then
+        # Download with axel
+        sudo axel -o "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+    else
+        # Check if wget is installed
+        command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting."; exit 1; }
+        echo "------------------------------------------------"
+        echo "Try Installing axel for faster download speed!"
+        echo "------------------------------------------------"
+        # Download with wget as a fallback
+        sudo wget -O "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+    fi
 
     # Make latest version runable
     sudo chmod +x "$DIR/genpwd"
+
 }
 
 # Determine os and set install directory
@@ -80,4 +92,5 @@ installlatest
 [ -f "$HOME/.bashrc" ] && check_and_add_to_file "$HOME/.bashrc"
 
 # Anounce completion
+echo
 echo "Installation complete!"

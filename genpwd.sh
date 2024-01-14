@@ -51,16 +51,24 @@ download_words_file() {
        echo "Downloading words file..."
    fi
 
-   # Check if wget is installed
-   command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting."; exit 1; }
-   wget --no-cache -O "$words_file" "$words_file_link"
+  if command -v axel &> /dev/null; then
+      # Download with axel
+      sudo axel -o "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+  else
+      # Check if wget is installed
+      command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting."; exit 1; }
+      echo "------------------------------------------------"
+      echo "Try Installing axel for faster download speed!"
+      echo "------------------------------------------------"
+      # Download with wget as a fallback
+      sudo wget -O "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+  fi
 
-   # Check if the download was successful
-   if [ $? -ne 0 ]; then
-       echo "Download failed."
-       exit 1
-   fi
-
+  # Check if the download was successful
+  if [ $? -ne 0 ]; then
+    echo "Download failed."
+    exit 1
+  fi
    echo "Download complete."
    exit 0
 }
