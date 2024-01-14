@@ -33,23 +33,28 @@ words_file_link="https://raw.githubusercontent.com/xajkep/wordlists/master/dicti
 
 # function to download words file
 download_words_file() {
-   # Create the directory if it doesn't exist
-   if [ ! -d "$storage_path" ]; then
-     mkdir -p "$storage_path"
-   fi
+  # Create the directory if it doesn't exist
+  if [ ! -d "$storage_path" ]; then
+    mkdir -p "$storage_path"
+  fi
    
-   # Ensure Permissions on storage path
-   if [ ! -w "$storage_path" ]; then
+  # Ensure Permissions on storage path
+  if [ ! -w "$storage_path" ]; then
     echo "Error: No write permission in the storage path."
     exit 1
-   fi
+  fi
 
-   # Determine the reason for downloading
-   if [ "$regen" = true ]; then
-       echo "Downloading new words file..."
+  # Delete old words file if it exists
+  if [ -f "$words_file" ]; then
+    rm "$words_file"
+  fi
+
+  # Determine the reason for downloading
+  if [ "$regen" = true ]; then
+      echo "Downloading new words file..."
    else
-       echo "Downloading words file..."
-   fi
+      echo "Downloading words file..."
+  fi
 
   if command -v axel &> /dev/null; then
       # Download with axel
@@ -69,8 +74,8 @@ download_words_file() {
     echo "Download failed."
     exit 1
   fi
-   echo "Download complete."
-   exit 0
+    echo "Download complete."
+    exit 0
 }
 
 # Check for --regen option among the arguments
