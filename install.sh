@@ -92,5 +92,4 @@ installlatest
 [ -f "$HOME/.bashrc" ] && check_and_add_to_file "$HOME/.bashrc"
 
 # Anounce completion
-echo
 echo "Installation complete!"
