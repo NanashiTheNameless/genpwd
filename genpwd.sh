@@ -46,7 +46,7 @@ download_words_file() {
 
   # Delete old words file if it exists
   if [ -f "$words_file" ]; then
-    rm "$words_file"
+    rm -f "$words_file"
   fi
 
   # Determine the reason for downloading
