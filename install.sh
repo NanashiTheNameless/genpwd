@@ -27,9 +27,12 @@ getdir() {
     if [ "$SYSTEMTYPE" = "Darwin" ]; then
         # Define the directory to install to
         DIR="$HOME/.config/genpwd"
-    else [ "$SYSTEMTYPE" = "Linux" ]; 
+    elif [ "$SYSTEMTYPE" = "Linux" ]; 
         # Define the directory to install to
         DIR="/usr/bin"
+    else
+        echo 'Could not determine what OS you are running, please manually install by downloading it from the github. https://github.com/CortezJEL/genpwd/blob/main/genpwd.sh'
+        exit 1
     fi
 }
 
