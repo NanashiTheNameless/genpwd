@@ -27,7 +27,7 @@ getdir() {
     if [ "$SYSTEMTYPE" = "Darwin" ]; then
         # Define the directory to install to
         DIR="$HOME/.config/genpwd"
-    elif [ "$SYSTEMTYPE" = "Linux" ]; 
+    elif [ "$SYSTEMTYPE" = "Linux" ]; then
         # Define the directory to install to
         DIR="/usr/bin"
     else
