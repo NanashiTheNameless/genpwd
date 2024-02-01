@@ -12,7 +12,7 @@ display_help() {
     echo "  -n  Number of passwords to generate (default is 1)."
     echo "  -l  Minimum length of the words (default is 4)."
     echo "  -m  Maximum length of the words (default is the current minimum length + 4)."
-    echo "  -r  Maximum number of retries for each word (default is 30)."
+    echo "  -r  Maximum number of retries for each word (default is 60)."
 }
 
 # Initialize default values
@@ -22,7 +22,7 @@ cowsay="false"
 times_to_run="1"
 min_word_length="4"
 max_word_length="$((min_word_length + 4))"
-max_retries="30"
+max_retries="60"
 regen="false"
 update="false"
 storage_path="$HOME/.config/genpwd"
