@@ -11,7 +11,7 @@ display_help() {
     echo "  -c  Enable 'Cowsay Mode' which will echo your password in a cowsay bubble."
     echo "  -n  Number of passwords to generate (default is 1)."
     echo "  -l  Minimum length of the words (default is 4)."
-    echo "  -m  Maximum length of the words (default is the current minimum length + 3)."
+    echo "  -m  Maximum length of the words (default is the current minimum length + 4)."
     echo "  -r  Maximum number of retries for each word (default is 30)."
 }
 
@@ -21,7 +21,7 @@ evil="false"
 cowsay="false"
 times_to_run="1"
 min_word_length="4"
-max_word_length="$((min_word_length + 3))"
+max_word_length="$((min_word_length + 4))"
 max_retries="30"
 regen="false"
 update="false"
@@ -29,7 +29,7 @@ storage_path="$HOME/.config/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
 # To use a different word list link it here (make sure it is a raw file)
-words_file_link="https://raw.githubusercontent.com/xajkep/wordlists/master/dictionaries/english_a-z_-_no_special_chars.txt"
+words_file_link="https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt"
 
 # function to download words file
 download_words_file() {
@@ -132,7 +132,7 @@ while getopts ":secn:l:m:r:h" opt; do
     l) 
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         min_word_length="$OPTARG"
-        max_word_length="$((min_word_length + 3))"
+        max_word_length="$((min_word_length + 4))"
       else
         echo "Error: -l requires a numeric argument." >&2
         exit 1
