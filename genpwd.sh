@@ -29,7 +29,7 @@ storage_path="$HOME/.config/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
 # To use a different word list link it here (make sure it is a raw file)
-words_file_link="https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt"
+words_file_link="https://raw.githubusercontent.com/xajkep/wordlists/master/dictionaries/english_a-z_-_no_special_chars.txt"
 
 # function to download words file
 download_words_file() {
