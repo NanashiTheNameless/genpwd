@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Function to display help message
 display_help() {
-    echo "Usage: ${0##*/} [--regen] [--update] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
+    # echo "Usage: ${0##*/} [--regen] [--update] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
+    echo "Usage: ${0##*/} [--regen] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
     echo "Generate random passwords based on words and numbers."
     echo "Options:"
     echo "  --regen  Download the latest words file."
-    echo "  --update  Download to the latest genpwd release."
+    # echo "  --update  Download to the latest genpwd release."
     echo "  -s  Enable 'Super Mode' which will create longer passwords."
     echo "  -e  Enable 'Evil Mode' which will create stupidly long passwords."
     echo "  -c  Enable 'Cowsay Mode' which will echo your password in a cowsay bubble."
@@ -24,12 +25,12 @@ min_word_length="4"
 max_word_length="$((min_word_length + 4))"
 max_retries="60"
 regen="false"
-update="false"
+# update="false"
 storage_path="$HOME/.config/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
 # To use a different word list link it here (make sure it is a raw file)
-words_file_link="https://raw.githubusercontent.com/xajkep/wordlists/master/dictionaries/english_a-z_-_no_special_chars.txt"
+words_file_link="https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt"
 
 # function to download words file
 download_words_file() {
@@ -89,20 +90,25 @@ if ! [ -r $words_file ]; then
 download_words_file
 fi
 
-# Check for --update option among the arguments
-for arg in "$@"; do
-  if [ "$arg" == "--update" ]; then
-    update="true"
-    # Check if curl is installed
-    command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
-    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
-    break
-  fi
-done
+# # Check for --update option among the arguments
+# for arg in "$@"; do
+#   if [ "$arg" == "--update" ]; then
+#     update="true"
+#     # Check if curl is installed
+#     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
+#     curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
+#     break
+#   fi
+# done
 
 
-# Exit after completing --regen or --update
-if [ "$regen" = true ] || [ "$update" = true ]; then
+# # Exit after completing --regen or --update
+# if [ "$regen" = true ] || [ "$update" = true ]; then
+#     exit 0
+# fi
+
+ # Exit after completing --regen or --update
+if [ "$regen" = true ]; then
     exit 0
 fi
 
@@ -260,7 +266,8 @@ for ((i=1; i<=times_to_run; i++)); do
         
         # Generate two random words
         words1=$(get_word_from_file)
-        words2=$(get_word_from_file)
+        words2=$(echo "Usage: ${0##*/} [--regen] [--update] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
+    )
         
         # Generate a random number
         numbers1=$(shuf -i 1-9999 -n 1)
