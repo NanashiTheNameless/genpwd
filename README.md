@@ -6,5 +6,4 @@
 
 ## WARNING THIS SCRIPT DOES INCLUSE SWEARS!! For a no swears version use [ THIS ](https://github.com/CortezJEL/genpwd/releases/tag/1699754745)!
 # to install use
-https://github.com/NanashiTheNameless/genpwd/releases/tag/rolling
-
+https://github.com/NanashiTheNameless/genpwd/releases/latest
