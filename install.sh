@@ -31,7 +31,7 @@ getdir() {
         # Define the directory to install to
         DIR="/usr/bin"
     else
-        { echo 'Could not determine what OS you are running, please manually install by downloading it from the github. https://github.com/CortezJEL/genpwd/blob/main/genpwd.sh' ; exit 1 ; }
+        { echo 'Could not determine what OS you are running, please manually install by downloading it from the github. https://raw.githubusercontent.com/NanashiTheNameless/genpwd/No-Swear/genpwd.sh' ; exit 1 ; }
     fi
 }
 
@@ -59,15 +59,14 @@ installlatest() {
 
     if command -v axel &> /dev/null; then
         # Download with axel
-        sudo axel -q -o "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
-    else
+        sudo axel -q -o "$DIR/genpwd" "https://raw.githubusercontent.com/NanashiTheNameless/genpwd/No-Swear/genpwd.sh"
         # Check if wget is installed
         command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }
         echo "------------------------------------------------"
         echo "Try Installing axel for faster download speed!"
         echo "------------------------------------------------"
         # Download with wget as a fallback
-        sudo wget -q -O "$DIR/genpwd" "https://raw.githubusercontent.com/CortezJEL/genpwd/main/genpwd.sh"
+        sudo wget -q -O "$DIR/genpwd" "https://raw.githubusercontent.com/NanashiTheNameless/genpwd/No-Swear/genpwd.sh"
     fi
 
     # Make latest version runable
