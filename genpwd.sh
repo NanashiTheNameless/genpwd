@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # Function to display help message
 display_help() {
-    # echo "Usage: ${0##*/} [--regen] [--update] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
     echo "Usage: ${0##*/} [--regen] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
     echo "Generate random passwords based on words and numbers."
     echo "Options:"
     echo "  --regen  Download the latest words file."
-    # echo "  --update  Download to the latest genpwd release."
+#     echo "  --update  Download to the latest genpwd release."
     echo "  -s  Enable 'Super Mode' which will create longer passwords."
     echo "  -e  Enable 'Evil Mode' which will create stupidly long passwords."
     echo "  -c  Enable 'Cowsay Mode' which will echo your password in a cowsay bubble."
@@ -96,21 +95,20 @@ fi
 #     update="true"
 #     # Check if curl is installed
 #     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
-#     curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
+#     curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/NanashiTheNameless/genpwd/main/install.sh | bash
 #     break
 #   fi
 # done
 
+# Exit after completing --regen
+if [ "$regen" = true ]; then
+    exit 0
+fi
 
 # # Exit after completing --regen or --update
 # if [ "$regen" = true ] || [ "$update" = true ]; then
 #     exit 0
 # fi
-
- # Exit after completing --regen or --update
-if [ "$regen" = true ]; then
-    exit 0
-fi
 
 # Parse command line arguments for standard flags
 while getopts ":secn:l:m:r:h" opt; do
@@ -266,8 +264,7 @@ for ((i=1; i<=times_to_run; i++)); do
         
         # Generate two random words
         words1=$(get_word_from_file)
-        words2=$(echo "Usage: ${0##*/} [--regen] [--update] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
-    )
+        words2=$(get_word_from_file)
         
         # Generate a random number
         numbers1=$(shuf -i 1-9999 -n 1)
