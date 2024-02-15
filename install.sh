@@ -21,7 +21,7 @@ else
     { 
     echo 'This installer needs to be run with sudo, please ensure you have access to sudo before continuing!'
     echo 'This check is not perfect, if you do have access to sudo and see this message, type "HasSudo=true ; " before the install command'
-    echo 'You can also manually install genpwd by downloading the binary from the github. https://github.com/NanashiTheNameless/genpwd/blob/main/genpwd.sh'
+    echo 'You can also manually install genpwd by downloading the binary from the github. https://github.com/NanashiTheNameless/genpwd/blob/No-Swear/genpwd.sh'
     exit 1
     }
 fi
@@ -52,7 +52,7 @@ getdir() {
         # Define the directory to install to
         DIR="/usr/bin"
     else
-        { echo 'Could not determine what OS you are running, please manually install genpwd by downloading the binary from the github. https://github.com/NanashiTheNameless/genpwd/blob/main/genpwd.sh' ; exit 1 ; }
+        { echo 'Could not determine what OS you are running, please manually install genpwd by downloading the binary from the github. https://github.com/NanashiTheNameless/genpwd/blob/No-Swear/genpwd.sh' ; exit 1 ; }
     fi
 }
 
