@@ -95,7 +95,7 @@ for arg in "$@"; do
     update="true"
     # Check if curl is installed
     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
-    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/CortezJEL/genpwd/main/install.sh | bash
+    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/NanashiTheNameless/genpwd/main/install.sh | bash
     break
   fi
 done
