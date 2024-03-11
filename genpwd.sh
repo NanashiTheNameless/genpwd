@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Function to display help message
 display_help() {
-    echo "Usage: ${0##*/} [--regen] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
+    echo "Usage: ${0##*/} [--regen] [--update] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
     echo "Generate random passwords based on words and numbers."
     echo "Options:"
     echo "  --regen  Download the latest words file."
-#     echo "  --update  Download to the latest genpwd release."
+    echo "  --update  Download to the latest genpwd release."
     echo "  -s  Enable 'Super Mode' which will create longer passwords."
     echo "  -e  Enable 'Evil Mode' which will create stupidly long passwords."
     echo "  -c  Enable 'Cowsay Mode' which will echo your password in a cowsay bubble."
@@ -13,6 +13,7 @@ display_help() {
     echo "  -l  Minimum length of the words (default is 4)."
     echo "  -m  Maximum length of the words (default is the current minimum length + 4)."
     echo "  -r  Maximum number of retries for each word (default is 60)."
+    echo " ( No-Swear Branch ) "
 }
 
 # Initialize default values
@@ -57,7 +58,7 @@ download_words_file() {
 
   if command -v axel &> /dev/null; then
       # Download with axel
-      sudo axel -q -o "$words_file" "$words_file_link"
+      axel -q -o "$words_file" "$words_file_link"
   else
       # Check if wget is installed
       command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }
@@ -90,25 +91,20 @@ download_words_file
 fi
 
 # # Check for --update option among the arguments
-# for arg in "$@"; do
-#   if [ "$arg" == "--update" ]; then
-#     update="true"
-#     # Check if curl is installed
-#     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
-#     curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/NanashiTheNameless/genpwd/main/install.sh | bash
-#     break
-#   fi
-# done
+for arg in "$@"; do
+  if [ "$arg" == "--update" ]; then
+    update="true"
+    # Check if curl is installed
+    command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
+    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/NanashiTheNameless/genpwd/No-Swear/install.sh | bash
+    break
+  fi
+done
 
-# Exit after completing --regen
-if [ "$regen" = true ]; then
+# Exit after completing --regen or --update
+if [ "$regen" = true ] || [ "$update" = true ]; then
     exit 0
 fi
-
-# # Exit after completing --regen or --update
-# if [ "$regen" = true ] || [ "$update" = true ]; then
-#     exit 0
-# fi
 
 # Parse command line arguments for standard flags
 while getopts ":secn:l:m:r:h" opt; do
