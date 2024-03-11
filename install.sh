@@ -19,7 +19,7 @@ if [ "$HasSudo" = true ]; then
 else
     # Inform the user they need sudo access to run the installer
     { 
-    echo 'This installer needs to be run with sudo, please ensure you have access to sudo before continuing!'
+    echo 'This installer needs to be run on a system with sudo, please ensure you have access to sudo and it is installed before continuing!'
     echo 'This check is not perfect, if you do have access to sudo and see this message, type "HasSudo=true ; " before the install command'
     echo 'You can also manually install genpwd by downloading the binary from the github. https://github.com/NanashiTheNameless/genpwd/blob/main/genpwd.sh'
     exit 1
