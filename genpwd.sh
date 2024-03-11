@@ -57,7 +57,7 @@ download_words_file() {
 
   if command -v axel &> /dev/null; then
       # Download with axel
-      sudo axel -q -o "$words_file" "$words_file_link"
+      axel -q -o "$words_file" "$words_file_link"
   else
       # Check if wget is installed
       command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }

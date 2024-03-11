@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# DO NOT USE "HasSudo=false" HERE it will break users being able to override
+# DO NOT USE "HasSudo=false" IN THE FILE it will break users being able to override
 
 # Check if user is in the sudo or wheel group
 # And attempt to validate sudo access by running `sudo -v`
@@ -14,7 +14,7 @@ if [ "$HasSudo" = true ]; then
     # Prompt user for their sudo password if any conditions are met
     {
     echo "Please Enter your sudo password if prompted!"
-    sudo echo > /dev/null
+    sudo -v > /dev/null
     }
 else
     # Inform the user they need sudo access to run the installer
