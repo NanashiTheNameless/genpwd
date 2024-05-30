@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Function to display help message
 display_help() {
-    echo "Usage: ${0##*/} [--regen] [--update] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
+    echo "Usage: ${0##*/} [-h] [--regen] [--update] [-s] [-e] [-c] [-n number_of_passwords] [-l min_word_length] [-m max_word_length] [-r max_retries]"
     echo "Generate random passwords based on words and numbers."
     echo "Options:"
     echo "  --regen  Download the latest words file."
     echo "  --update  Download to the latest genpwd release."
+    echo "  -h  Show this help message."
     echo "  -s  Enable 'Super Mode' which will create longer passwords."
     echo "  -e  Enable 'Evil Mode' which will create stupidly long passwords."
     echo "  -c  Enable 'Cowsay Mode' which will echo your password in a cowsay bubble."
@@ -13,6 +14,7 @@ display_help() {
     echo "  -l  Minimum length of the words (default is 4)."
     echo "  -m  Maximum length of the words (default is the current minimum length + 4)."
     echo "  -r  Maximum number of retries for each word (default is 60)."
+    echo '  -x  "X-Tra mode" (makes passwords that are more optimized for randomness).'
     echo " ( No-Swear Branch ) "
 }
 
@@ -25,7 +27,7 @@ min_word_length="4"
 max_word_length="$((min_word_length + 4))"
 max_retries="60"
 regen="false"
-# update="false"
+update="false"
 storage_path="$HOME/.config/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
@@ -90,7 +92,7 @@ if ! [ -r $words_file ]; then
 download_words_file
 fi
 
-# # Check for --update option among the arguments
+# Check for --update option among the arguments
 for arg in "$@"; do
   if [ "$arg" == "--update" ]; then
     update="true"
@@ -107,7 +109,7 @@ if [ "$regen" = true ] || [ "$update" = true ]; then
 fi
 
 # Parse command line arguments for standard flags
-while getopts ":secn:l:m:r:h" opt; do
+while getopts ":secn:l:m:r:xh" opt; do
   case $opt in
     s)
         longer="true"
@@ -149,6 +151,9 @@ while getopts ":secn:l:m:r:h" opt; do
       ;;
     h) 
       display_help ; exit 0
+      ;;
+    x) 
+         xtra="true"
       ;;
     \?) { echo "Invalid option '-$OPTARG' (If you need help you can try running '${0##*/} -h')" >&2 ; exit 1 ; }
     ;;
@@ -194,7 +199,19 @@ fi
 # Loop to run the script the specified number of times
 for ((i=1; i<=times_to_run; i++)); do
 
-    if [ "$evil" = "true" ]; then
+    if [ "$xtra" = "true" ]; then
+      if [ "$cowsay" = "true" ]; then
+      # Check if cowsay is installed
+          command -v cowsay >/dev/null 2>&1 || { echo >&2 "cowsay is required but it's not installed. Aborting." ; exit 1 ; }
+          # Echo the cowsay random string
+          echo ""
+          echo "$(cowsay $(tr -cd "[:graph:]" < /dev/urandom | head -c 16 | sed -e 's|\`|~|g' -e 's|\$(|\\$(|g';))"
+          echo ""
+      else
+          echo -e "$(tr -cd "[:graph:]" < /dev/urandom | head -c 16 | sed -e 's|\`|~|g' -e 's|\$(|\\$(|g';)"
+      fi
+
+    elif [ "$evil" = "true" ]; then
 
         # Generate nine random words
         words1=$(get_word_from_file)
