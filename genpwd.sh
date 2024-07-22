@@ -208,7 +208,9 @@ for ((i=1; i<=times_to_run; i++)); do
           echo "$(cowsay $(tr -cd "[:graph:]" < /dev/urandom | head -c $(($min_word_length + 20)) | sed -e 's|\`|~|g' -e 's|\$(|\\$(|g' -e 's|~||g' | sed 's/^.\(.*\)/\1/';))"
           echo ""
       else
+          echo ""
           echo -e "$(tr -cd "[:graph:]" < /dev/urandom | head -c $(($min_word_length + 20)) | sed -e 's|\`|~|g' -e 's|\$(|\\$(|g' -e 's|~||g' | sed 's/^.\(.*\)/\1/';)"
+          echo ""
       fi
 
     elif [ "$evil" = "true" ]; then
