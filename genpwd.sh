@@ -205,7 +205,7 @@ for ((i=1; i<=times_to_run; i++)); do
           command -v cowsay >/dev/null 2>&1 || { echo >&2 "cowsay is required but it's not installed. Aborting." ; exit 1 ; }
           # Echo the cowsay random string
           echo ""
-          echo "$(cowsay $(tr -cd "[:graph:]" < /dev/urandom | head -c 16 | sed -e 's|\`|~|g' -e 's|\$(|\\$(|g';))"
+          echo "$(cowsay $(tr -cd "[:graph:]" < /dev/urandom | head -c $(($min_word_length + 20)) | sed -e 's|\`|~|g' -e 's|\$(|\\$(|g';))"
           echo ""
       else
           echo -e "$(tr -cd "[:graph:]" < /dev/urandom | head -c 16 | sed -e 's|\`|~|g' -e 's|\$(|\\$(|g';)"
