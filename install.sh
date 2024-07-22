@@ -5,7 +5,7 @@
 # Check if user is in the sudo or wheel group
 # And attempt to validate sudo access by running `sudo -v`
 # Note: We're using `sudo -v` in a way that doesn't produce output to avoid needing to capture it
-if [ -n "$(groups $USER | grep -E 'sudo|wheel|sudoers')" ] 2>&1; then
+if [ -n "$(groups $USER | grep -E 'sudo|wheel|sudoers')" ] || sudo -v >/dev/null 2>&1; then
     HasSudo=true
 fi
 
