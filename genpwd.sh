@@ -31,7 +31,7 @@ storage_path="$HOME/.config/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
 # To use a different word list link it here (make sure it is a raw file)
-words_file_link="https://raw.githubusercontent.com/xajkep/wordlists/master/dictionaries/english_a-z_-_no_special_chars.txt"
+words_file_link="https://github.com/xajkep/wordlists/raw/refs/heads/master/dictionaries/english_a-z_-_no_special_chars.txt"
 
 # function to download words file
 download_words_file() {
@@ -97,7 +97,7 @@ for arg in "$@"; do
     update="true"
     # Check if curl is installed
     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
-    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/NanashiTheNameless/genpwd/main/install.sh | bash
+    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://github.com/NanashiTheNameless/MacBatteryAlertTool/raw/refs/heads/main/setup.sh | bash
     break
   fi
 done
