@@ -32,7 +32,7 @@ storage_path="$HOME/.config/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
 # To use a different word list link it here (make sure it is a raw file)
-words_file_link="https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt"
+words_file_link="https://github.com/first20hours/google-10000-english/raw/refs/heads/master/google-10000-english-no-swears.txt"
 
 # function to download words file
 download_words_file() {
@@ -98,7 +98,7 @@ for arg in "$@"; do
     update="true"
     # Check if curl is installed
     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
-    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://raw.githubusercontent.com/NanashiTheNameless/genpwd/No-Swear/install.sh | bash
+    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/genpwd.sh | bash
     break
   fi
 done

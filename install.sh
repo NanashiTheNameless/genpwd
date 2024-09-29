@@ -80,7 +80,7 @@ installlatest() {
 
     if command -v axel &> /dev/null; then
         # Download with axel
-        sudo axel -q -o "$DIR/genpwd" "https://raw.githubusercontent.com/NanashiTheNameless/genpwd/No-Swear/genpwd.sh"
+        sudo axel -q -o "$DIR/genpwd" "https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/genpwd.sh"
     else
         # Check if wget is installed
         command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }
@@ -88,7 +88,7 @@ installlatest() {
         echo "Try Installing axel for faster download speed!"
         echo "------------------------------------------------"
         # Download with wget as a fallback
-        sudo wget -q -O "$DIR/genpwd" "https://raw.githubusercontent.com/NanashiTheNameless/genpwd/No-Swear/genpwd.sh"
+        sudo wget -q -O "$DIR/genpwd" "https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/genpwd.sh"
     fi
 
     # Make latest version runable
