@@ -1,31 +1,7 @@
 #!/usr/bin/env bash
 
-# DO NOT USE "HasSudo=false" HERE it will break users being able to override
-
-# Check if user is in the sudo or wheel group
-# And attempt to validate sudo access by running `sudo -v`
-# Note: We're using `sudo -v` in a way that doesn't produce output to avoid needing to capture it
-if [ -n "$(groups $USER | grep -E 'sudo|wheel')" ] || sudo -v >/dev/null 2>&1; then
-    HasSudo=true
-fi
-
-# Check if the user has access to sudo or has explicitly indicated they have sudo access
-if [ "$HasSudo" = true ]; then
-    # Prompt user for their sudo password if any conditions are met
-    {
-    echo "Please Enter your sudo password if prompted!"
-    sudo -v > /dev/null
-    }
-else
-    # Inform the user they need sudo access to run the installer
-    { 
-    echo 'This installer needs to be run on a system with sudo, please ensure you have access to sudo and it is installed before continuing!'
-    echo 'This check is not perfect, if you do have access to sudo and see this message, type "HasSudo=true ; " before the install command'
-    echo 'You can also manually install genpwd by downloading the binary from the github. https://github.com/NanashiTheNameless/genpwd/blob/No-Swear/genpwd.sh'
-    exit 1
-    }
-fi
-
+# Set directory to install genpwd to
+DIR="$HOME/.config/genpwd"
 
 # Function to check and add directory to PATH in a given file
 check_and_add_to_file() {
@@ -36,23 +12,6 @@ check_and_add_to_file() {
     else
         echo "Adding $DIR to $file"
         echo "export PATH=\"$DIR:\$PATH\"" >> "$file"
-    fi
-}
-
-# Determine os and set install directory
-getdir() {
-    # Grab os from uname
-    SYSTEMTYPE=$(uname -s)
-
-    # Define directory
-    if [ "$SYSTEMTYPE" = "Darwin" ]; then
-        # Define the directory to install to
-        DIR="$HOME/.config/genpwd"
-    elif [ "$SYSTEMTYPE" = "Linux" ]; then
-        # Define the directory to install to
-        DIR="/usr/bin"
-    else
-        { echo 'Could not determine what OS you are running, please manually install genpwd by downloading the binary from the github. https://github.com/NanashiTheNameless/genpwd/blob/No-Swear/genpwd.sh' ; exit 1 ; }
     fi
 }
 
@@ -69,9 +28,13 @@ makedir() {
 removeold() {
     # Delete old version
     if [ -f "$DIR/genpwd" ]; then
-        sudo rm -f "$DIR/genpwd"
-    else [ -f "$DIR/genpwd.sh" ]; 
-        sudo rm -f "$DIR/genpwd.sh"
+        sudo \rm -f "$DIR/genpwd"
+    else [ -f "$DIR/genpwd.sh" ]; then
+        sudo \rm -f "$DIR/genpwd.sh"
+    else [ -f "/usr/bin/genpwd" ]; then
+        sudo \rm /usr/bin/genpwd
+    else [ -f "/usr/bin/genpwd.sh" ]; then
+        sudo \rm /usr/bin/genpwd.sh
     fi
 }
 
@@ -95,9 +58,6 @@ installlatest() {
     sudo chmod +x "$DIR/genpwd"
 
 }
-
-# Determine os and set install directory
-getdir
 
 # Check if the directory exists, create if not
 makedir
