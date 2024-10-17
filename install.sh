@@ -29,11 +29,11 @@ removeold() {
     # Delete old version
     if [ -f "$DIR/genpwd" ]; then
         sudo \rm -f "$DIR/genpwd"
-    else [ -f "$DIR/genpwd.sh" ]; then
+    elif [ -f "$DIR/genpwd.sh" ]; then
         sudo \rm -f "$DIR/genpwd.sh"
-    else [ -f "/usr/bin/genpwd" ]; then
+    elif [ -f "/usr/bin/genpwd" ]; then
         sudo \rm /usr/bin/genpwd
-    else [ -f "/usr/bin/genpwd.sh" ]; then
+    elif [ -f "/usr/bin/genpwd.sh" ]; then
         sudo \rm /usr/bin/genpwd.sh
     fi
 }
