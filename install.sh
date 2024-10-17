@@ -28,9 +28,9 @@ makedir() {
 removeold() {
     # Delete old version
     if [ -f "$DIR/genpwd" ]; then
-        sudo \rm -f "$DIR/genpwd"
+        \rm -f "$DIR/genpwd"
     elif [ -f "$DIR/genpwd.sh" ]; then
-        sudo \rm -f "$DIR/genpwd.sh"
+        \rm -f "$DIR/genpwd.sh"
     elif [ -f "/usr/bin/genpwd" ]; then
         sudo \rm /usr/bin/genpwd
     elif [ -f "/usr/bin/genpwd.sh" ]; then
