@@ -69,7 +69,6 @@ installlatest() {
         echo "$DIR/genpwd is now executable."
     fi
 
-
 }
 
 # Check if the directory exists, create if not
