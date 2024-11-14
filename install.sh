@@ -48,15 +48,15 @@ installlatest() {
 
     if command -v axel &> /dev/null; then
         # Download with axel
-        echo "now downloading latest version of genpwd with axel!"
+        echo "Now downloading latest version of genpwd with axel!"
         axel -q -o "$DIR/genpwd" "https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/genpwd.sh"
     else
         # Check if wget is installed
         command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }
-        echo "now downloading latest version of genpwd with wget!"
-        echo "--------------------------------------------------------------------------------"
-        echo 'Try Installing axel for faster download speed! (And easier downloads than wget!)'
-        echo "--------------------------------------------------------------------------------"
+        echo "Now downloading latest version of genpwd with wget!"
+        echo "-----------------------------------------------------------------------------"
+        echo 'Try Installing axel for faster download speed! (And easier syntax than wget!)'
+        echo "-----------------------------------------------------------------------------"
         # Download with wget as a fallback
         wget -q -O "$DIR/genpwd" "https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/genpwd.sh"
     fi
