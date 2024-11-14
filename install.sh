@@ -28,12 +28,16 @@ makedir() {
 removeold() {
     # Delete old version
     if [ -f "$DIR/genpwd" ]; then
+        echo "Removing old version $DIR/genpwd"
         \rm -f "$DIR/genpwd"
     elif [ -f "$DIR/genpwd.sh" ]; then
+        echo "Removing old version $DIR/genpwd.sh"
         \rm -f "$DIR/genpwd.sh"
     elif [ -f "/usr/bin/genpwd" ]; then
+        echo "Removing old version /usr/bin/genpwd"
         sudo \rm /usr/bin/genpwd
     elif [ -f "/usr/bin/genpwd.sh" ]; then
+        echo "Removing old version /usr/bin/genpwd.sh"
         sudo \rm /usr/bin/genpwd.sh
     fi
 
@@ -44,13 +48,15 @@ installlatest() {
 
     if command -v axel &> /dev/null; then
         # Download with axel
+        echo "now downloading latest version of genpwd with axel!"
         axel -q -o "$DIR/genpwd" "https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/genpwd.sh"
     else
         # Check if wget is installed
         command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }
-        echo "------------------------------------------------"
-        echo "Try Installing axel for faster download speed!"
-        echo "------------------------------------------------"
+        echo "now downloading latest version of genpwd with wget!"
+        echo "--------------------------------------------------------------------------------"
+        echo 'Try Installing axel for faster download speed! (And easier downloads than wget!)'
+        echo "--------------------------------------------------------------------------------"
         # Download with wget as a fallback
         wget -q -O "$DIR/genpwd" "https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/genpwd.sh"
     fi
