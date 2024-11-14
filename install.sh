@@ -56,7 +56,19 @@ installlatest() {
     fi
 
     # Make latest version runable
-    sudo chmod +x "$DIR/genpwd"
+    if [ ! -x "$DIR/genpwd" ]; then
+        echo "$DIR/genpwd is not executable. Attempting to add execute permission."
+        chmod +x "$DIR/genpwd"
+    else
+        echo "$DIR/genpwd is already executable."
+    fi
+    if [ ! -x "$DIR/genpwd" ]; then
+        echo "$DIR/genpwd is not executable after trying to add permissions, now trying with sudo."
+        sudo chmod +x "$DIR/genpwd"
+    else
+        echo "$DIR/genpwd is now executable."
+    fi
+
 
 }
 
