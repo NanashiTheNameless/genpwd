@@ -45,7 +45,6 @@ removeold() {
 
 # Install latest version
 installlatest() {
-
     if command -v axel &> /dev/null; then
         # Download with axel
         echo "Now downloading latest version of genpwd with axel!"
@@ -74,7 +73,24 @@ installlatest() {
     else
         echo "$DIR/genpwd is now executable."
     fi
+    if [ ! -x "$DIR/genpwd" ]; then
+        echo "$DIR/genpwd is still not executable after trying to add permissions with sudo. Something is very wrong, This likely needs to be fixed manually!"
+        echo "Try running \"sudo chmod +x $DIR/genpwd\" or \"chmod +x $DIR/genpwd\" as root"
+        echo "(GenPWD will still be added to your \$PATH variable)"
+        handlepath
+        exit 1
+    else
+        echo "$DIR/genpwd is now executable."
+    fi
+}
 
+# Handle the Implimentation of PATH
+handlepath() {
+    # Check and modify .zshrc
+    [ -f "$HOME/.zshrc" ] && check_and_add_to_file "$HOME/.zshrc"
+
+    # Check and modify .bashrc
+    [ -f "$HOME/.bashrc" ] && check_and_add_to_file "$HOME/.bashrc"
 }
 
 # Check if the directory exists, create if not
@@ -86,11 +102,8 @@ removeold
 # Install latest version
 installlatest
 
-# Check and modify .zshrc
-[ -f "$HOME/.zshrc" ] && check_and_add_to_file "$HOME/.zshrc"
-
-# Check and modify .bashrc
-[ -f "$HOME/.bashrc" ] && check_and_add_to_file "$HOME/.bashrc"
+# Handle the Implimentation of PATH
+handlepath
 
 # Anounce completion
 echo "Installation complete!"
