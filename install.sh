@@ -84,7 +84,7 @@ installlatest() {
     fi
 }
 
-# Handle the Implimentation of PATH
+# Handle the Implementation of PATH
 handlepath() {
     # Check and modify .zshrc
     [ -f "$HOME/.zshrc" ] && check_and_add_to_file "$HOME/.zshrc"
@@ -102,8 +102,8 @@ removeold
 # Install latest version
 installlatest
 
-# Handle the Implimentation of PATH
+# Handle the Implementation of PATH
 handlepath
 
-# Anounce completion
+# Announce completion
 echo "Installation complete!"
