@@ -59,7 +59,7 @@ download_words_file() {
 
   if command -v axel &> /dev/null; then
       # Download with axel
-      axel -q -o "$words_file" "$words_file_link"
+      axel -H 'DNT: 1' -H 'Sec-GPC: 1' -q -o "$words_file" "$words_file_link"
   else
       # Check if wget is installed
       command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }
@@ -67,7 +67,7 @@ download_words_file() {
       echo "Try Installing axel for faster download speed!"
       echo "------------------------------------------------"
       # Download with wget as a fallback
-      wget -q -O "$words_file" "$words_file_link"
+      wget -H 'DNT: 1' -H 'Sec-GPC: 1' -q -O "$words_file" "$words_file_link"
   fi
 
   # Check if the download was successful
@@ -97,7 +97,7 @@ for arg in "$@"; do
     update="true"
     # Check if curl is installed
     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
-    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/install.sh | bash
+    curl -q -H 'DNT: 1' -H 'Sec-GPC: 1' -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/install.sh | bash
     break
   fi
 done

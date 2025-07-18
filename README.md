@@ -4,6 +4,6 @@
 
 ## genpwd, a simple utility to generate **temporary** passwords
 
-## WARNING THIS SCRIPT DOES INCLUDES SWEARS!! For a no swears version use [ THIS ](https://github.com/NanashiTheNameless/genpwd/releases/tag/No-Swear)!
+## WARNING THIS SCRIPT INCLUDES SWEARS!! For a no swears version use [ THIS ](https://github.com/NanashiTheNameless/genpwd/releases/tag/No-Swear)!
 # to install use
 https://github.com/NanashiTheNameless/genpwd/releases/latest
