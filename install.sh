@@ -3,9 +3,10 @@
 # Set directory to install genpwd to
 DIR="$HOME/.config/genpwd"
 
+# Parse flags (only --agree or --accept are recognized)
 AGREE_FLAG=0
 for __arg in "$@"; do
-  if [[ "$__arg" == "--agree" ]]; then
+  if [[ "$__arg" == "--agree" || "$__arg" == "--accept" ]]; then
     AGREE_FLAG=1
   fi
 done
