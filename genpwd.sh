@@ -98,7 +98,10 @@ for arg in "$@"; do
     update="true"
     # Check if curl is installed
     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
-    curl -q -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -s -L https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/install.sh | bash
+    curl -H 'DNT: 1' -H 'Sec-GPC: 1' -sL https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/install.sh -o install.sh ;
+    chmod +x install.sh ;
+    bash install.sh --agree ;
+    command rm install.sh
     break
   fi
 done
