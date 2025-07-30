@@ -87,16 +87,17 @@ else
   esac
 fi
 
-# Function to check and add directory to PATH in a given file
+# Append PATH export to a shell init file if $DIR is not already present
 check_and_add_to_file() {
-    local file=$1
-    # Check if the file contains the directory in the PATH
-    if grep -q "export PATH=.*$DIR" "$file"; then
-        echo "$DIR is already in the PATH in $file"
-    else
-        echo "Adding $DIR to $file"
-        echo "\nexport PATH=\"$DIR:\$PATH\"" >> "$file"
-    fi
+  local file=$1
+  # Detect an existing PATH entry referencing $DIR; otherwise append one
+  if cat $file | grep PATH | grep -Fq "$DIR"; then
+    echo "$DIR is already in the PATH in $file"
+  else
+    echo "Adding $DIR to $file"
+    echo "" >> "$file"
+    echo "export PATH=\"$DIR:\$PATH\"" >> "$file"
+  fi
 }
 
 # Make install directory if it exists
