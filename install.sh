@@ -73,7 +73,7 @@ LICENSE
 
 if [[ $AGREE_FLAG -eq 1 ]]; then
   echo ""
-  echo "Agreement provided via --agree."
+  echo "Agreement provided via \"--agree\" or \"--accept.\""
   echo ""
 else
   if [ -t 0 ] && [ -r /dev/tty ]; then
