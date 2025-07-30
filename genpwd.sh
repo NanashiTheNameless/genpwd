@@ -99,7 +99,7 @@ for arg in "$@"; do
     command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required but it's not installed. Aborting." ; exit 1 ; }
     curl -H 'DNT: 1' -H 'Sec-GPC: 1' -sL https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/install.sh -o install.sh ;
     chmod +x install.sh ;
-    bash install.sh --accept ;
+    bash install.sh --agree ;
     command rm install.sh
     break
   fi
