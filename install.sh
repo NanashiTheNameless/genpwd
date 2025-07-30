@@ -69,11 +69,11 @@ This Work is provided “as is”, without warranty of any kind, express or impl
 The Licensor will not be liable to anyone for any damages related to the Work or this license,
 under any kind of legal claim as far as the law allows.
 
-
 LICENSE
 
 if [[ $AGREE_FLAG -eq 1 ]]; then
   echo "Agreement provided via --agree."
+  echo ""
 else
   if [ -t 0 ] && [ -r /dev/tty ]; then
     printf "\nDo you agree to the license terms above? [y/N]: " > /dev/tty
