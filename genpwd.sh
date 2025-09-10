@@ -86,7 +86,7 @@ max_word_length="$((min_word_length + 4))"
 max_retries="60"
 regen="false"
 update="false"
-storage_path="$HOME/.config/genpwd"
+storage_path="$HOME/.local/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
 # To use a different word list link it here (make sure it is a raw file)
