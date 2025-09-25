@@ -144,11 +144,6 @@ for arg in "$@"; do
   fi
 done
 
-# If words file doesn't exist download it using wget
-if ! [ -r $words_file ]; then
-download_words_file
-fi
-
 # Check for --update option among the arguments
 for arg in "$@"; do
   if [ "$arg" == "--update" ]; then
@@ -212,10 +207,14 @@ for arg in "$@"; do
   fi
 done
 
-
 # Exit after completing --regen or --update
 if [ "$regen" = true ] || [ "$update" = true ]; then
     exit 0
+fi
+
+# If words file doesn't exist download it using wget
+if ! [ -r $words_file ]; then
+download_words_file
 fi
 
 # Parse command line arguments for standard flags
