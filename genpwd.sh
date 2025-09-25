@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # # 🏳️‍🌈 Opinionated Queer License v1.2
-g
 # © Copyright [NamelessNanashi](<https://git.NamelessNanashi.dev/>)
 #
 # ## Permissions
@@ -98,7 +97,6 @@ download_words_file() {
   if [ ! -d "$storage_path" ]; then
     mkdir -p "$storage_path"
   fi
-   
   # Ensure Permissions on storage path
   if [ ! -w "$storage_path" ]; then
     { echo "Error: No write permission in the storage path." ; exit 1 ; }
@@ -112,7 +110,7 @@ download_words_file() {
   # Determine the reason for downloading
   if [ "$regen" = true ]; then
       echo "Downloading new words file..."
-   else
+  else
       echo "Downloading words file..."
   fi
 
