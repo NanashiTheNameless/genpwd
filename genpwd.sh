@@ -99,7 +99,7 @@ download_words_file() {
   if [ ! -d "$storage_path" ]; then
     mkdir -p "$storage_path"
   fi
-   
+
   # Ensure Permissions on storage path
   if [ ! -w "$storage_path" ]; then
     { echo "Error: No write permission in the storage path." ; exit 1 ; }
@@ -113,7 +113,7 @@ download_words_file() {
   # Determine the reason for downloading
   if [ "$regen" = true ]; then
       echo "Downloading new words file..."
-   else
+  else
       echo "Downloading words file..."
   fi
 
@@ -149,10 +149,11 @@ done
 for arg in "$@"; do
   if [ "$arg" == "--update" ]; then
     update="true"
-    TEMPD=$(mktemp -d)
+    TEMPD="$(mktemp -d)"
     target="$TEMPD/install.sh"
     url="https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/install.sh"
     echo "Successfully created the temporary directory \"$TEMPD\"!"
+
     # Prefer axel, then curl, then wget
     if command -v axel >/dev/null 2>&1; then
       axel -H 'DNT: 1' -H 'Sec-GPC: 1' -q -o "$target" "$url"
@@ -163,9 +164,8 @@ for arg in "$@"; do
     else
       echo "Need one of: axel, curl, or wget." >&2
       if [ -n "$TEMPD" ]; then
-        # Detect if running on macOS
         if [ "$(uname)" = "Darwin" ]; then
-          echo "macOS detected — bypassing /tmp/ safety restriction because macOS is dumb."
+          echo "macOS detected — bypassing /tmp/ safety restriction because macOS is stupid."
           if command rm -rf "$TEMPD"; then
             echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
           fi
@@ -187,23 +187,34 @@ for arg in "$@"; do
       fi
       exit 1
     fi
-    chmod +x $TEMPD/install.sh ;
-    bash $TEMPD/install.sh --agree ;
+
+    chmod +x "$TEMPD/install.sh"
+    bash "$TEMPD/install.sh" --agree
+
     if [ -n "$TEMPD" ]; then
-      case "$TEMPD" in
-        /tmp/*)
-          if command rm -rf "$TEMPD"; then
-            echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
-          fi
+      if [ "$(uname)" = "Darwin" ]; then
+        echo "macOS detected — bypassing /tmp/ safety restriction because macOS is stupid."
+        if command rm -rf "$TEMPD"; then
+          echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
+        fi
+      else
+        case "$TEMPD" in
+          /tmp/*)
+            if command rm -rf "$TEMPD"; then
+              echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
+            fi
           ;;
-        *)
-          echo "Warning: TEMPD=\"$TEMPD\" is outside /tmp/, refusing to delete for safety."
+          *)
+            echo "Warning: TEMPD=\"$TEMPD\" is outside /tmp/, refusing to delete for safety."
           ;;
-      esac
+        esac
+      fi
     fi
+
     if [ -e "$TEMPD" ]; then
       echo "Temp Directory \"$TEMPD\" was not deleted correctly; you need to manually remove it!"
     fi
+
     break
   fi
 done
@@ -222,49 +233,49 @@ fi
 while getopts ":secn:l:m:r:xh" opt; do
   case $opt in
     s)
-        longer="true"
-      ;;
+      longer="true"
+    ;;
     e)
-        evil="true"
-      ;;
+      evil="true"
+    ;;
     c)
-        cowsay="true"
-      ;;
-    n) 
+      cowsay="true"
+    ;;
+    n)
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         times_to_run="$OPTARG"
       else
         { echo "Error: -n requires a numeric argument." >&2 ; exit 1 ; }
       fi
-      ;;
-    l) 
+    ;;
+    l)
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         min_word_length="$OPTARG"
         max_word_length="$((min_word_length + 4))"
       else
         { echo "Error: -l requires a numeric argument." >&2 ; exit 1 ; }
       fi
-      ;;
-    m) 
+    ;;
+    m)
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         max_word_length="$OPTARG"
       else
         { echo "Error: -m requires a numeric argument." >&2 ; exit 1 ; }
       fi
-      ;;
-    r) 
+    ;;
+    r)
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         max_retries="$OPTARG"
       else
         { echo "Error: -r requires a numeric argument." >&2 ; exit 1 ; }
       fi
-      ;;
-    h) 
+    ;;
+    h)
       display_help ; exit 0
-      ;;
-    x) 
-         xtra="true"
-      ;;
+    ;;
+    x)
+      xtra="true"
+    ;;
     \?) { echo "Invalid option '-$OPTARG' (If you need help you can try running '${0##*/} -h')" >&2 ; exit 1 ; }
     ;;
     esac
