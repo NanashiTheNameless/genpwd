@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Installation target directory
-DIR="$HOME/.local/bin"
-
 # Parse flags (only --agree or --accept are recognized)
 AGREE_FLAG=0
 for __arg in "$@"; do
@@ -118,29 +115,19 @@ makedir() {
 # Remove older installs in $DIR and optionally from /usr/bin
 removeold() {
   # Delete any previous local copies quietly
-  for name in "$DIR/genpwd" "$DIR/genpwd.sh"; do
+  for name in "$target" "$target.sh"; do
     if [ -f "$name" ]; then
       echo "Removing old version $name"
       command rm -f -- "$name"
-    fi
-  done
-
-  # Offer to remove system-wide copies (requires sudo)
-  for name in /usr/bin/genpwd /usr/bin/genpwd.sh; do
-    if [ -f "$name" ]; then
-      printf "Found old system-wide install at %s. Remove it? [y/N]: " "$name"
-      read -r REPLY
-      case "$REPLY" in
-        [yY]|[yY][eE][sS]) sudo rm -f -- "$name" ;;
-        *) echo "Keeping $name" ;;
-      esac
     fi
   done
 }
 
 # Download latest script and verify basic integrity
 installlatest() {
+  # Installation target info
   local url="https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/genpwd.sh"
+  local DIR="$HOME/.local/bin"
   local target="$DIR/genpwd"
 
   echo "Downloading $url → $target"
@@ -170,26 +157,26 @@ installlatest() {
 
 # Ensure the installed script is executable; escalate if needed
 makeexecutable() {
-  if [ ! -x "$DIR/genpwd" ]; then
-    echo "$DIR/genpwd is not executable. Attempting to add execute permission."
-    chmod +x "$DIR/genpwd"
-    if [ ! -x "$DIR/genpwd" ]; then
-      echo "$DIR/genpwd is not executable after trying to add permissions, now trying with sudo."
-      sudo chmod +x "$DIR/genpwd"
-      if [ ! -x "$DIR/genpwd" ]; then
-        echo "$DIR/genpwd is still not executable after trying to add permissions with sudo. Something is very wrong, This likely needs to be fixed manually!"
-        echo "Try running \"sudo chmod +x $DIR/genpwd\" or \"chmod +x $DIR/genpwd\" as root"
-        echo "(genpwd will still be added to your \$PATH variable)"
+  if [ ! -x "$target" ]; then
+    echo "$target is not executable. Attempting to add execute permission."
+    chmod +x "$target"
+    if [ ! -x "$target" ]; then
+      echo "$target is not executable after trying to add permissions, now trying with sudo."
+      sudo chmod +x "$target"
+      if [ ! -x "$target" ]; then
+        echo "$target is still not executable after trying to add permissions with sudo. Something is very wrong, This likely needs to be fixed manually!"
+        echo "Try running \"sudo chmod +x $target\" or \"chmod +x $target\" as root"
+        echo "(prettysleep will still be added to your \$PATH variable)"
         handlepath
         exit 1
       else
-        echo "$DIR/genpwd is now executable."
+        echo "$target is now executable."
       fi
     else
-        echo "$DIR/genpwd is already executable."
+      echo "$target is now executable."
     fi
   else
-    echo "$DIR/genpwd is already executable."
+    echo "$target is already executable."
   fi
 }
 
