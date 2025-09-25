@@ -145,11 +145,6 @@ for arg in "$@"; do
   fi
 done
 
-# If words file doesn't exist download it using wget
-if ! [ -r $words_file ]; then
-download_words_file
-fi
-
 # Check for --update option among the arguments
 for arg in "$@"; do
   if [ "$arg" == "--update" ]; then
@@ -168,16 +163,24 @@ for arg in "$@"; do
     else
       echo "Need one of: axel, curl, or wget." >&2
       if [ -n "$TEMPD" ]; then
-        case "$TEMPD" in
-          /tmp/*)
-            if command rm -rf "$TEMPD"; then
-              echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
+        # Detect if running on macOS
+        if [ "$(uname)" = "Darwin" ]; then
+          echo "macOS detected — bypassing /tmp/ safety restriction because macOS is dumb."
+          if command rm -rf "$TEMPD"; then
+            echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
+          fi
+        else
+          case "$TEMPD" in
+            /tmp/*)
+              if command rm -rf "$TEMPD"; then
+                echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
               fi
-              ;;
-          *)
-            echo "Warning: TEMPD=\"$TEMPD\" is outside /tmp/, refusing to delete for safety."
             ;;
-        esac
+            *)
+              echo "Warning: TEMPD=\"$TEMPD\" is outside /tmp/, refusing to delete for safety."
+            ;;
+          esac
+        fi
       fi
       if [ -e "$TEMPD" ]; then
         echo "Temp Directory \"$TEMPD\" was not deleted correctly; you need to manually remove it!"
@@ -208,6 +211,11 @@ done
 # Exit after completing --regen or --update
 if [ "$regen" = true ] || [ "$update" = true ]; then
     exit 0
+fi
+
+# If words file doesn't exist download it
+if ! [ -r $words_file ]; then
+download_words_file
 fi
 
 # Parse command line arguments for standard flags
