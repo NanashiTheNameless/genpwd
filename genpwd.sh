@@ -87,7 +87,7 @@ max_word_length="$((min_word_length + 4))"
 max_retries="60"
 regen="false"
 update="false"
-storage_path="$HOME/.config/genpwd"
+storage_path="$HOME/.local/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
 # To use a different word list link it here (make sure it is a raw file)
@@ -117,17 +117,16 @@ download_words_file() {
       echo "Downloading words file..."
   fi
 
-  if command -v axel &> /dev/null; then
-      # Download with axel
-      axel -q -o "$words_file" "$words_file_link"
+  # Prefer axel, then curl, then wget
+  if command -v axel >/dev/null 2>&1; then
+    axel -H 'DNT: 1' -H 'Sec-GPC: 1' -q -o "$words_file" "$words_file_link"
+  elif command -v curl >/dev/null 2>&1; then
+    curl -H 'DNT: 1' -H 'Sec-GPC: 1' -fsSL -o "$words_file" "$words_file_link"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -H 'DNT: 1' -H 'Sec-GPC: 1' -q -O "$words_file" "$words_file_link"
   else
-      # Check if wget is installed
-      command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }
-      echo "------------------------------------------------"
-      echo "Try Installing axel for faster download speed!"
-      echo "------------------------------------------------"
-      # Download with wget as a fallback
-      wget -q -O "$words_file" "$words_file_link"
+    echo "Need one of: axel, curl, or wget." >&2
+    exit 1
   fi
 
   # Check if the download was successful
@@ -311,7 +310,9 @@ for ((i=1; i<=times_to_run; i++)); do
           echo "$(cowsay $(tr -cd "[:graph:]" < /dev/urandom | head -c $(($min_word_length + 20)) | sed -e 's|\`|~|g' -e 's|\$(|\\$(|g' -e 's|~||g' | sed 's/^.\(.*\)/\1/';))"
           echo ""
       else
+          echo ""
           echo -e "$(tr -cd "[:graph:]" < /dev/urandom | head -c $(($min_word_length + 20)) | sed -e 's|\`|~|g' -e 's|\$(|\\$(|g' -e 's|~||g' | sed 's/^.\(.*\)/\1/';)"
+          echo ""
       fi
 
     elif [ "$evil" = "true" ]; then

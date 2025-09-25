@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Set directory to install genpwd to
-DIR="$HOME/.config/genpwd"
-
 # Parse flags (only --agree or --accept are recognized)
 AGREE_FLAG=0
 for __arg in "$@"; do
@@ -11,6 +8,7 @@ for __arg in "$@"; do
   fi
 done
 
+# Show license text (do not edit)
 cat <<'LICENSE'
 # 🏳️‍🌈 Opinionated Queer License v1.2
 
@@ -71,11 +69,13 @@ The Licensor will not be liable to anyone for any damages related to the Work or
 under any kind of legal claim as far as the law allows.
 LICENSE
 
+# Confirm license agreement if --agree or --accept was not supplied
 if [[ $AGREE_FLAG -eq 1 ]]; then
   echo ""
   echo "Agreement provided via \"--agree\" or \"--accept.\""
   echo ""
 else
+  # Read from /dev/tty when available to avoid piping issues
   if [ -t 0 ] && [ -r /dev/tty ]; then
     printf "\nDo you agree to the license terms above? [y/N]: " > /dev/tty
     read -r REPLY < /dev/tty || REPLY=""
@@ -84,11 +84,17 @@ else
     read -r REPLY || REPLY=""
   fi
 
+  # Accept only y/yes (case-insensitive)
   case "$REPLY" in
     [yY]|[yY][eE][sS]) echo "Agreed." ;;
     *)                 echo "Not agreed."; exit 1 ;;
   esac
 fi
+
+# Installation target info
+local url="https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/genpwd.sh"
+local DIR="$HOME/.local/bin"
+local target="$DIR/genpwd"
 
 # Append PATH export to a shell init file if $DIR is not already present
 check_and_add_to_file() {
@@ -103,94 +109,89 @@ check_and_add_to_file() {
   fi
 }
 
-# Make install directory if it exists
+# Create the target directory if missing
 makedir() {
-    # Check if the directory exists, create if not
-    if [ ! -d "$DIR" ]; then
-        echo "$DIR does not exist. Creating directory..."
-        mkdir -p "$DIR"
-    fi
+  if [ ! -d "$DIR" ]; then
+    echo "$DIR does not exist. Creating directory..."
+    mkdir -p "$DIR"
+  fi
 }
 
-# Remove old version(s) if they exist
+# Remove older installs in $DIR and optionally from /usr/bin
 removeold() {
-    # Delete old version
-    if [ -f "$DIR/genpwd" ]; then
-        echo "Removing old version $DIR/genpwd"
-        \rm -f "$DIR/genpwd"
-    elif [ -f "$DIR/genpwd.sh" ]; then
-        echo "Removing old version $DIR/genpwd.sh"
-        \rm -f "$DIR/genpwd.sh"
-    elif [ -f "/usr/bin/genpwd" ]; then
-        echo "Removing old version /usr/bin/genpwd"
-        sudo \rm /usr/bin/genpwd
-    elif [ -f "/usr/bin/genpwd.sh" ]; then
-        echo "Removing old version /usr/bin/genpwd.sh"
-        sudo \rm /usr/bin/genpwd.sh
+  # Delete any previous local copies quietly
+  for name in "$target" "$target.sh"; do
+    if [ -f "$name" ]; then
+      echo "Removing old version $name"
+      command rm -f -- "$name"
     fi
-
+  done
 }
 
-# Install latest version
+# Download latest script and verify basic integrity
 installlatest() {
-    if command -v axel &> /dev/null; then
-        # Download with axel
-        echo "Now downloading latest version of genpwd with axel!"
-        axel -H 'DNT: 1' -H 'Sec-GPC: 1' -q -o "$DIR/genpwd" "https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/genpwd.sh"
-    else
-        # Check if wget is installed
-        command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }
-        echo "Now downloading latest version of genpwd with wget!"
-        echo "-----------------------------------------------------------------------------"
-        echo 'Try Installing axel for faster download speed! (And easier syntax than wget!)'
-        echo "-----------------------------------------------------------------------------"
-        # Download with wget as a fallback
-        wget -H 'DNT: 1' -H 'Sec-GPC: 1' -q -O "$DIR/genpwd" "https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/genpwd.sh"
-    fi
 
-    # Make latest version runable
-    if [ ! -x "$DIR/genpwd" ]; then
-        echo "$DIR/genpwd is not executable. Attempting to add execute permission."
-        chmod +x "$DIR/genpwd"
-        if [ ! -x "$DIR/genpwd" ]; then
-            echo "$DIR/genpwd is not executable after trying to add permissions, now trying with sudo."
-            sudo chmod +x "$DIR/genpwd"
-            if [ ! -x "$DIR/genpwd" ]; then
-                echo "$DIR/genpwd is still not executable after trying to add permissions with sudo. Something is very wrong, This likely needs to be fixed manually!"
-                echo "Try running \"sudo chmod +x $DIR/genpwd\" or \"chmod +x $DIR/genpwd\" as root"
-                echo "(GenPWD will still be added to your \$PATH variable)"
-                handlepath
-                exit 1
-            else
-                echo "$DIR/genpwd is now executable."
-            fi
-        else
-            echo "$DIR/genpwd is now executable."
-        fi
-    else
-        echo "$DIR/genpwd is already executable."
-    fi
+  echo "Downloading $url → $target"
+
+  # Prefer axel, then curl, then wget
+  if command -v axel >/dev/null 2>&1; then
+    axel -H 'DNT: 1' -H 'Sec-GPC: 1' -q -o "$target" "$url"
+  elif command -v curl >/dev/null 2>&1; then
+    curl -H 'DNT: 1' -H 'Sec-GPC: 1' -fsSL -o "$target" "$url"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -H 'DNT: 1' -H 'Sec-GPC: 1' -q -O "$target" "$url"
+  else
+    echo "Need one of: axel, curl, or wget." >&2
+    exit 1
+  fi
+
+  # Verify file is non-empty and starts with a bash shebang
+  if ! [ -s "$target" ]; then
+    echo "Download failed or empty file: $target" >&2
+    exit 1
+  fi
+  if ! head -n1 "$target" | grep -q '^#!/usr/bin/env bash'; then
+    echo "Downloaded file doesn't look like the expected script (missing bash shebang)." >&2
+    exit 1
+  fi
 }
 
-# Handle the Implementation of PATH
+# Ensure the installed script is executable; escalate if needed
+makeexecutable() {
+  if [ ! -x "$target" ]; then
+    echo "$target is not executable. Attempting to add execute permission."
+    chmod +x "$target"
+    if [ ! -x "$target" ]; then
+      echo "$target is not executable after trying to add permissions, now trying with sudo."
+      sudo chmod +x "$target"
+      if [ ! -x "$target" ]; then
+        echo "$target is still not executable after trying to add permissions with sudo. Something is very wrong, This likely needs to be fixed manually!"
+        echo "Try running \"sudo chmod +x $target\" or \"chmod +x $target\" as root"
+        echo "(prettysleep will still be added to your \$PATH variable)"
+        handlepath
+        exit 1
+      else
+        echo "$target is now executable."
+      fi
+    else
+      echo "$target is now executable."
+    fi
+  else
+    echo "$target is already executable."
+  fi
+}
+
+# Add $DIR to PATH in .zshrc and .bashrc when those files exist
 handlepath() {
-    # Check and modify .zshrc
-    [ -f "$HOME/.zshrc" ] && check_and_add_to_file "$HOME/.zshrc"
-
-    # Check and modify .bashrc
-    [ -f "$HOME/.bashrc" ] && check_and_add_to_file "$HOME/.bashrc"
+  [ -f "$HOME/.zshrc" ]  && check_and_add_to_file "$HOME/.zshrc"
+  [ -f "$HOME/.bashrc" ] && check_and_add_to_file "$HOME/.bashrc"
 }
 
-# Check if the directory exists, create if not
+# Execute installation steps in order
 makedir
-
-# Delete old version
 removeold
-
-# Install latest version
 installlatest
-
-# Handle the Implementation of PATH
+makeexecutable
 handlepath
 
 # Announce completion
