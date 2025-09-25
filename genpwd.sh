@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # # 🏳️‍🌈 Opinionated Queer License v1.2
+#
 # © Copyright [NamelessNanashi](<https://git.NamelessNanashi.dev/>)
 #
 # ## Permissions
