@@ -98,6 +98,7 @@ download_words_file() {
   if [ ! -d "$storage_path" ]; then
     mkdir -p "$storage_path"
   fi
+
   # Ensure Permissions on storage path
   if [ ! -w "$storage_path" ]; then
     { echo "Error: No write permission in the storage path." ; exit 1 ; }
@@ -222,7 +223,7 @@ if [ "$regen" = true ] || [ "$update" = true ]; then
     exit 0
 fi
 
-# If words file doesn't exist download it using wget
+# If words file doesn't exist download it
 if ! [ -r $words_file ]; then
 download_words_file
 fi
@@ -231,49 +232,49 @@ fi
 while getopts ":secn:l:m:r:xh" opt; do
   case $opt in
     s)
-        longer="true"
-      ;;
+      longer="true"
+    ;;
     e)
-        evil="true"
-      ;;
+      evil="true"
+    ;;
     c)
-        cowsay="true"
-      ;;
-    n) 
+      cowsay="true"
+    ;;
+    n)
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         times_to_run="$OPTARG"
       else
         { echo "Error: -n requires a numeric argument." >&2 ; exit 1 ; }
       fi
-      ;;
-    l) 
+    ;;
+    l)
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         min_word_length="$OPTARG"
         max_word_length="$((min_word_length + 4))"
       else
         { echo "Error: -l requires a numeric argument." >&2 ; exit 1 ; }
       fi
-      ;;
-    m) 
+    ;;
+    m)
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         max_word_length="$OPTARG"
       else
         { echo "Error: -m requires a numeric argument." >&2 ; exit 1 ; }
       fi
-      ;;
-    r) 
+    ;;
+    r)
       if [[ "$OPTARG" =~ ^[0-9]+$ ]]; then
         max_retries="$OPTARG"
       else
         { echo "Error: -r requires a numeric argument." >&2 ; exit 1 ; }
       fi
-      ;;
-    h) 
+    ;;
+    h)
       display_help ; exit 0
-      ;;
-    x) 
-         xtra="true"
-      ;;
+    ;;
+    x)
+      xtra="true"
+    ;;
     \?) { echo "Invalid option '-$OPTARG' (If you need help you can try running '${0##*/} -h')" >&2 ; exit 1 ; }
     ;;
     esac
