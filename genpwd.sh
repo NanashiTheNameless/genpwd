@@ -116,17 +116,16 @@ download_words_file() {
       echo "Downloading words file..."
   fi
 
-  if command -v axel &> /dev/null; then
-      # Download with axel
-      axel -H 'DNT: 1' -H 'Sec-GPC: 1' -q -o "$words_file" "$words_file_link"
+  # Prefer axel, then curl, then wget
+  if command -v axel >/dev/null 2>&1; then
+    axel -H 'DNT: 1' -H 'Sec-GPC: 1' -q -o "$words_file" "$words_file_link"
+  elif command -v curl >/dev/null 2>&1; then
+    curl -H 'DNT: 1' -H 'Sec-GPC: 1' -fsSL -o "$words_file" "$words_file_link"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -H 'DNT: 1' -H 'Sec-GPC: 1' -q -O "$words_file" "$words_file_link"
   else
-      # Check if wget is installed
-      command -v wget >/dev/null 2>&1 || { echo >&2 "wget is required but it's not installed. Aborting." ; exit 1 ; }
-      echo "------------------------------------------------"
-      echo "Try Installing axel for faster download speed!"
-      echo "------------------------------------------------"
-      # Download with wget as a fallback
-      wget -H 'DNT: 1' -H 'Sec-GPC: 1' -q -O "$words_file" "$words_file_link"
+    echo "Need one of: axel, curl, or wget." >&2
+    exit 1
   fi
 
   # Check if the download was successful
