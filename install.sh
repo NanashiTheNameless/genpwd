@@ -92,9 +92,9 @@ else
 fi
 
 # Installation target info
-local url="https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/genpwd.sh"
-local DIR="$HOME/.local/bin"
-local target="$DIR/genpwd"
+url="https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/No-Swear/genpwd.sh"
+DIR="$HOME/.local/bin"
+target="$DIR/genpwd"
 
 # Append PATH export to a shell init file if $DIR is not already present
 check_and_add_to_file() {
