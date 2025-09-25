@@ -91,6 +91,11 @@ else
   esac
 fi
 
+# Installation target info
+local url="https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/genpwd.sh"
+local DIR="$HOME/.local/bin"
+local target="$DIR/genpwd"
+
 # Append PATH export to a shell init file if $DIR is not already present
 check_and_add_to_file() {
   local file=$1
@@ -125,10 +130,6 @@ removeold() {
 
 # Download latest script and verify basic integrity
 installlatest() {
-  # Installation target info
-  local url="https://github.com/NanashiTheNameless/genpwd/raw/refs/heads/main/genpwd.sh"
-  local DIR="$HOME/.local/bin"
-  local target="$DIR/genpwd"
 
   echo "Downloading $url → $target"
 
