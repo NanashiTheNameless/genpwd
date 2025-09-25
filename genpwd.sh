@@ -90,7 +90,7 @@ storage_path="$HOME/.local/genpwd"
 words_file="$storage_path/genpwd-words.txt"
 
 # To use a different word list link it here (make sure it is a raw file)
-words_file_link="https://github.com/xajkep/wordlists/raw/refs/heads/master/dictionaries/english_a-z_-_no_special_chars.txt"
+words_file_link="https://github.com/NanashiTheNameless/GiantWordlist/raw/refs/heads/main/WordsWithSwears.txt"
 
 # function to download words file
 download_words_file() {
