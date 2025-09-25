@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # # 🏳️‍🌈 Opinionated Queer License v1.2
-#
+g
 # © Copyright [NamelessNanashi](<https://git.NamelessNanashi.dev/>)
 #
 # ## Permissions
@@ -167,16 +167,24 @@ for arg in "$@"; do
     else
       echo "Need one of: axel, curl, or wget." >&2
       if [ -n "$TEMPD" ]; then
-        case "$TEMPD" in
-          /tmp/*)
-            if command rm -rf "$TEMPD"; then
-              echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
+        # Detect if running on macOS
+        if [ "$(uname)" = "Darwin" ]; then
+          echo "macOS detected — bypassing /tmp/ safety restriction because macOS is dumb."
+          if command rm -rf "$TEMPD"; then
+            echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
+          fi
+        else
+          case "$TEMPD" in
+            /tmp/*)
+              if command rm -rf "$TEMPD"; then
+                echo "Cleaned up temporary directory \"$TEMPD\" successfully!"
               fi
-              ;;
-          *)
-            echo "Warning: TEMPD=\"$TEMPD\" is outside /tmp/, refusing to delete for safety."
             ;;
-        esac
+            *)
+              echo "Warning: TEMPD=\"$TEMPD\" is outside /tmp/, refusing to delete for safety."
+            ;;
+          esac
+        fi
       fi
       if [ -e "$TEMPD" ]; then
         echo "Temp Directory \"$TEMPD\" was not deleted correctly; you need to manually remove it!"
